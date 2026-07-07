@@ -24,7 +24,7 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <Link
           href="/"
-          className="relative h-8 w-32"
+          className="relative h-9 w-9 shrink-0"
           onClick={() => setIsOpen(false)}
         >
           <Image
@@ -32,7 +32,7 @@ export default function Navbar() {
             alt={hero.eyebrow}
             fill
             priority
-            className="object-contain object-left"
+            className="object-contain"
           />
         </Link>
 
