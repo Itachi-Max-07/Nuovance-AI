@@ -65,6 +65,7 @@ export const hero = {
 /* ---------- About / Overview ---------- */
 
 export const about = {
+  heading: "About Nuovance AI",
   executiveSummary: [
     "Nuovance AI is an AI, software engineering, and digital transformation company dedicated to helping businesses innovate, automate, and scale through intelligent technology.",
     "We partner with startups, growing businesses, and enterprise organizations to design, develop, and implement AI-powered solutions that improve operational efficiency, automate complex workflows, enhance customer experiences, and accelerate sustainable business growth.",
