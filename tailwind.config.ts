@@ -20,6 +20,18 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-montserrat)", "system-ui", "sans-serif"],
       },
+      scale: {
+        "97": "0.97",
+      },
+      transitionDuration: {
+        "160": "160ms",
+      },
+      transitionProperty: {
+        // Press/hover feedback: colors + filter + transform, deliberately
+        // excluding box-shadow so the focus-visible ring appears instantly
+        // during keyboard navigation (no animation on Tab).
+        press: "color, background-color, border-color, filter, transform",
+      },
     },
   },
   plugins: [],

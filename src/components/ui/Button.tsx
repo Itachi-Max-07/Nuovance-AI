@@ -22,7 +22,7 @@ type NativeButtonProps = CommonProps &
 type ButtonProps = LinkProps | NativeButtonProps;
 
 const baseStyles =
-  "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent";
+  "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-press duration-160 ease-out active:scale-97 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent";
 
 const variantStyles: Record<Variant, string> = {
   primary: "bg-brand-accent text-brand-dark hover:brightness-95",

@@ -12,6 +12,18 @@
   --color-offwhite: 245 247 250; /* #F5F7FA */
 }
 
+html {
+  scroll-behavior: smooth;
+  /* Offsets in-page anchor jumps so section headings clear the sticky Navbar. */
+  scroll-padding-top: 4.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background: rgb(var(--color-offwhite));
   color: rgb(var(--color-dark));
@@ -20,5 +32,31 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* 3D stage + orbit spin for the brand motif. CSS animation (not JS) so it
+     runs off the main thread; transform-only for hardware acceleration. */
+  .orbit-3d-stage {
+    perspective: 800px;
+  }
+
+  .orbit-3d {
+    transform-style: preserve-3d;
+    animation: orbit-3d-spin 10s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  }
+}
+
+@keyframes orbit-3d-spin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-3d {
+    animation: none;
   }
 }
