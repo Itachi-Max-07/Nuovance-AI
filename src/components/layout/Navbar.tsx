@@ -6,7 +6,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { List, X } from "@phosphor-icons/react";
 import Button from "@/components/ui/Button";
-import { bookingHref, contact, hero } from "@/lib/content";
+import { bookingHref, brand, contact } from "@/lib/content";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -24,16 +24,24 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <Link
           href="/"
-          className="relative h-9 w-9 shrink-0"
+          className="flex shrink-0 items-center gap-2.5"
           onClick={() => setIsOpen(false)}
         >
           <Image
-            src="/logo/nuovance-inverted.png"
-            alt={hero.eyebrow}
-            fill
+            src={brand.logo.src}
+            alt={brand.logo.alt}
+            width={36}
+            height={36}
             priority
-            className="object-contain"
+            className="h-9 w-9"
           />
+          <span
+            aria-hidden="true"
+            className="hidden text-sm font-semibold uppercase tracking-widest text-brand-offwhite sm:inline"
+          >
+            {brand.wordmark}{" "}
+            <span className="text-brand-accent">{brand.wordmarkAccent}</span>
+          </span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

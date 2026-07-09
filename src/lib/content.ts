@@ -42,6 +42,17 @@ const BOOKING_CTA_LABEL = "Book a Meeting";
 // Falls back to the in-page contact section until a real booking link is set.
 export const bookingHref = /^https?:\/\//.test(BOOKING_URL) ? BOOKING_URL : "#contact";
 
+/* ---------- Brand ---------- */
+
+export const brand = {
+  name: "Nuovance AI",
+  // Wordmark lockup: "Nuovance" in offwhite + "AI" in accent blue.
+  wordmark: "Nuovance",
+  wordmarkAccent: "AI",
+  // Transparent N monogram (orbit + dot), for dark surfaces.
+  logo: { src: "/logo/nuovance-mark.png", alt: "Nuovance AI" },
+};
+
 /* ---------- Hero ---------- */
 
 export const hero = {
