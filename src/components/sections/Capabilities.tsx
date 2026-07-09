@@ -30,7 +30,7 @@ function CapabilityCard({ group, variants }: CapabilityCardProps) {
       variants={variants}
       whileHover={{ y: -4 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="group relative flex flex-col rounded-3xl bg-white p-6 ring-1 ring-brand-dark/5 transition-colors duration-300 hover:ring-brand-accent/40 sm:p-7"
+      className="group relative flex flex-col rounded-card bg-brand-surface p-6 ring-1 ring-brand-line transition-hover duration-300 hover:shadow-glow-sm hover:ring-brand-accent/40 sm:p-7"
     >
       <div
         aria-hidden="true"
@@ -39,7 +39,7 @@ function CapabilityCard({ group, variants }: CapabilityCardProps) {
         <OrbitMotif className="h-6 w-6" />
       </div>
 
-      <h3 className="pr-8 text-base font-bold leading-snug text-brand-dark sm:text-lg">
+      <h3 className="pr-8 text-base font-semibold leading-snug text-brand-offwhite sm:text-lg">
         {group.category}
       </h3>
 
@@ -67,7 +67,7 @@ function CapabilityCard({ group, variants }: CapabilityCardProps) {
           type="button"
           onClick={() => setExpanded((prev) => !prev)}
           aria-expanded={expanded}
-          className="mt-3 self-start text-xs font-semibold uppercase tracking-[0.1em] text-brand-accent transition-colors hover:text-brand-dark"
+          className="mt-3 self-start text-xs font-semibold uppercase tracking-[0.1em] text-brand-accent-2 transition-colors hover:text-brand-offwhite"
         >
           {expanded ? "Show less" : `+${remaining} more`}
         </button>
@@ -107,7 +107,7 @@ export default function Capabilities() {
   return (
     <section
       id="capabilities"
-      className="relative overflow-hidden bg-brand-offwhite py-16 sm:py-20 md:py-24 lg:py-28"
+      className="relative overflow-hidden bg-brand-dark-2 py-20 sm:py-24 md:py-28 lg:py-36"
     >
       <div
         aria-hidden="true"
@@ -131,15 +131,15 @@ export default function Capabilities() {
         className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
             Capabilities
           </span>
         </motion.div>
 
         <motion.h2
           variants={itemVariants}
-          className="mt-6 max-w-2xl text-balance text-3xl font-bold tracking-tight text-brand-dark sm:text-4xl lg:text-5xl"
+          className="mt-6 max-w-2xl text-balance text-3xl font-semibold tracking-tight text-brand-offwhite sm:text-4xl lg:text-5xl"
         >
           End-to-End Technology Capabilities
         </motion.h2>

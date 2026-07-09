@@ -42,7 +42,7 @@ export default function VisionMission() {
   return (
     <section
       id="vision-mission"
-      className="relative overflow-hidden bg-brand-offwhite py-16 sm:py-20 md:py-24 lg:py-28"
+      className="relative overflow-hidden bg-brand-dark py-20 sm:py-24 md:py-28 lg:py-36"
     >
       <div
         aria-hidden="true"
@@ -66,8 +66,8 @@ export default function VisionMission() {
         className="relative z-10 mx-auto max-w-5xl px-6 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
             Vision &amp; Mission
           </span>
         </motion.div>
@@ -75,9 +75,9 @@ export default function VisionMission() {
         <div className="mt-6 grid gap-5 sm:mt-8 sm:grid-cols-2 sm:gap-6 lg:gap-8">
           <motion.div
             variants={itemVariants}
-            className="rounded-3xl bg-white p-6 ring-1 ring-brand-dark/5 sm:p-8"
+            className="rounded-card bg-brand-surface p-6 ring-1 ring-brand-line sm:p-8"
           >
-            <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-brand-dark">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-brand-offwhite">
               Vision
             </h3>
             <p className="mt-4 text-base leading-relaxed text-brand-slate sm:text-lg">
@@ -87,9 +87,9 @@ export default function VisionMission() {
 
           <motion.div
             variants={itemVariants}
-            className="rounded-3xl bg-white p-6 ring-1 ring-brand-dark/5 sm:p-8"
+            className="rounded-card bg-brand-surface p-6 ring-1 ring-brand-line sm:p-8"
           >
-            <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-brand-dark">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-brand-offwhite">
               Mission
             </h3>
             <p className="mt-4 text-base leading-relaxed text-brand-slate sm:text-lg">
@@ -100,7 +100,7 @@ export default function VisionMission() {
 
         <motion.p
           variants={itemVariants}
-          className="mx-auto mt-12 max-w-2xl text-balance text-center text-xl font-semibold leading-snug text-brand-dark sm:mt-16 sm:text-2xl lg:text-3xl"
+          className="mx-auto mt-14 max-w-2xl text-balance text-center font-heading text-xl font-semibold leading-snug text-brand-offwhite sm:mt-20 sm:text-2xl lg:text-3xl"
         >
           &ldquo;{visionMission.brandPromise}&rdquo;
         </motion.p>
@@ -119,11 +119,11 @@ export default function VisionMission() {
           {philosophy.principles.map((principle, index) => (
             <li
               key={principle.title}
-              className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-brand-dark"
+              className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-brand-slate"
             >
               <span>{principle.title}</span>
               {index < philosophy.principles.length - 1 && (
-                <span aria-hidden="true" className="text-brand-dark/30">
+                <span aria-hidden="true" className="text-brand-muted/50">
                   ·
                 </span>
               )}

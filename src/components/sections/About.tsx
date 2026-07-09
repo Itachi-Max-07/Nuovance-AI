@@ -73,7 +73,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="bg-brand-offwhite py-16 sm:py-20 md:py-24 lg:py-28"
+      className="bg-brand-dark-2 py-20 sm:py-24 md:py-28 lg:py-36"
     >
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
         <motion.div
@@ -84,7 +84,7 @@ export default function About() {
         >
           <motion.h2
             variants={textItemVariants}
-            className="max-w-2xl text-3xl font-bold tracking-tight text-brand-dark sm:text-4xl lg:text-5xl"
+            className="max-w-2xl text-3xl font-semibold tracking-tight text-brand-offwhite sm:text-4xl lg:text-5xl"
           >
             {about.heading}
           </motion.h2>
@@ -108,11 +108,11 @@ export default function About() {
             initial="hidden"
             whileInView="visible"
             viewport={VIEWPORT}
-            className="orbit-3d-stage relative mx-auto flex aspect-square w-full max-w-md items-center justify-center overflow-hidden rounded-3xl bg-brand-dark"
+            className="orbit-3d-stage relative mx-auto flex aspect-square w-full max-w-md items-center justify-center overflow-hidden rounded-card bg-brand-surface ring-1 ring-brand-line"
           >
             <div
               aria-hidden="true"
-              className="absolute inset-8 rotate-45 text-brand-accent opacity-60"
+              className="absolute inset-8 rotate-45 text-brand-accent-2 opacity-50"
             >
               <div className="orbit-3d h-full w-full">
                 <OrbitMotif className="h-full w-full" />
@@ -133,15 +133,15 @@ export default function About() {
               initial="hidden"
               whileInView="visible"
               viewport={VIEWPORT}
-              className="relative z-10 mx-auto -mt-10 max-w-sm origin-top rounded-2xl border border-brand-light-blue bg-white p-6 shadow-lg"
+              className="relative z-10 mx-auto -mt-10 max-w-sm origin-top rounded-card border border-brand-line bg-brand-surface-2 p-6 shadow-card"
             >
               <div className="flex items-center gap-3">
-                <OrbitMotif className="h-6 w-6 shrink-0 text-brand-accent" />
+                <OrbitMotif className="h-6 w-6 shrink-0 text-brand-accent-2" />
                 <div>
-                  <p className="text-base font-semibold text-brand-dark">
+                  <p className="font-heading text-base font-semibold text-brand-offwhite">
                     {cto.name}
                   </p>
-                  <p className="text-sm font-medium text-brand-slate">
+                  <p className="text-sm font-medium text-brand-muted">
                     {cto.role}
                   </p>
                 </div>

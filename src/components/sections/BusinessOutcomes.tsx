@@ -29,7 +29,7 @@ export default function BusinessOutcomes() {
       };
 
   return (
-    <section id="outcomes" className="relative bg-white py-12 sm:py-14 md:py-16">
+    <section id="outcomes" className="relative bg-brand-dark-2 py-16 sm:py-20 md:py-24">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -38,15 +38,15 @@ export default function BusinessOutcomes() {
         className="mx-auto max-w-6xl px-6 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
             Business Outcomes
           </span>
         </motion.div>
 
         <motion.h2
           variants={itemVariants}
-          className="mt-4 max-w-xl text-balance text-2xl font-bold tracking-tight text-brand-dark sm:text-3xl"
+          className="mt-4 max-w-xl text-balance text-2xl font-semibold tracking-tight text-brand-offwhite sm:text-3xl"
         >
           Measurable Impact, Engineered In
         </motion.h2>
@@ -58,7 +58,7 @@ export default function BusinessOutcomes() {
           {businessOutcomes.map((outcome) => (
             <div
               key={outcome}
-              className="flex items-center gap-3 rounded-xl bg-brand-offwhite px-4 py-3"
+              className="flex items-center gap-3 rounded-input bg-brand-surface px-4 py-3 ring-1 ring-brand-line"
             >
               <span
                 aria-hidden="true"
@@ -66,7 +66,7 @@ export default function BusinessOutcomes() {
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-brand-accent" />
               </span>
-              <span className="text-sm font-medium leading-snug text-brand-dark">
+              <span className="text-sm font-medium leading-snug text-brand-slate">
                 {outcome}
               </span>
             </div>

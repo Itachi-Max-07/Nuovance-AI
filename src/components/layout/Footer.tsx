@@ -14,15 +14,15 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/10 bg-brand-dark text-brand-light-blue">
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+    <footer className="border-t border-brand-line bg-brand-dark text-brand-slate">
+      <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
         <div className="grid gap-12 md:grid-cols-3">
           <div>
             <div className="flex items-center gap-2 text-brand-offwhite">
               <OrbitMotif className="h-7 w-7 text-brand-accent" />
               <span className="text-lg font-semibold tracking-wide">{hero.eyebrow}</span>
             </div>
-            <p className="mt-4 max-w-xs text-sm text-brand-slate">{closing.tagline}</p>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-brand-muted">{closing.tagline}</p>
           </div>
 
           <div>
@@ -55,7 +55,7 @@ export default function Footer() {
                 {contact.emails.general}
               </a>
             </p>
-            <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-brand-slate">
+            <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-brand-muted">
               {contact.social.platforms.map((platform) => (
                 <li key={platform}>{platform}</li>
               ))}
@@ -63,7 +63,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-brand-slate sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 flex flex-col gap-4 border-t border-brand-line pt-8 text-xs text-brand-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {hero.eyebrow}. All rights reserved.
           </p>

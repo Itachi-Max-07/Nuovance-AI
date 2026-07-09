@@ -27,16 +27,27 @@ site that converts visitors into consultation bookings.
 - NEVER make a Section a Client Component just to animate it — use a small
   client `MotionWrapper`/`AnimatedDiv` imported into the server Section.
 
-## Brand Tokens (NON-NEGOTIABLE)
-Colors — CSS variables in globals.css, mirrored in tailwind.config:
-- `--color-dark: #111827`       primary — dark backgrounds, headings (trust/authority)
-- `--color-slate: #6B7280`      body & secondary text
-- `--color-accent: #8CA9FF`     CTAs, highlights, the "dot" spark
-- `--color-light-blue: #D6E0F2` soft fills, card backgrounds
-- `--color-offwhite: #F5F7FA`   light section backgrounds
+## Brand Tokens (NON-NEGOTIABLE — dark-luxury system, July 2026 redesign)
+Colors — CSS variables in globals.css, mirrored in tailwind.config as `brand.*`:
+- `--color-dark: #050505`       primary background (`bg-brand-dark`)
+- `--color-dark-2: #090909`     alternate section background (`bg-brand-dark-2`)
+- `--color-surface: #111111`    matte cards/panels (`bg-brand-surface`)
+- `--color-surface-2: #151515`  raised surfaces (`bg-brand-surface-2`)
+- `--color-accent: #5B5BFF`     primary accent — CTAs, fills
+- `--color-accent-2: #7C6CFF`   secondary accent — accent TEXT on dark (better contrast)
+- `--color-offwhite: #F5F5F5`   primary text (`text-brand-offwhite`)
+- `--color-slate: #B8B8B8`      secondary/body text (`text-brand-slate`)
+- `--color-muted: #7A7A7A`      muted text (`text-brand-muted`)
+- `brand-line` (static)         rgba(255,255,255,.08) hairline borders/dividers
+- Shadows: `shadow-glow` / `shadow-glow-sm` (indigo glow), `shadow-card` (soft depth)
+- Radii: `rounded-card` (20px) for cards, `rounded-full` for buttons/chips,
+  `rounded-input` (14px) for inputs
+- NO bright blues/cyans. NO light sections — sections alternate #050505/#090909.
 
 Typography:
-- **Montserrat** everywhere, via next/font. SemiBold for headings, Medium for body.
+- **Bricolage Grotesque** for headings (`font-heading`, applied to h1–h6 via a
+  base rule in globals.css). Weights 500–700, tight letter-spacing, editorial.
+- **Inter** for body (`font-sans`), 400–500, generous line height.
 - Generous letter-spacing on the wordmark and section labels/eyebrows.
 
 ### Styling rules (no drift)
@@ -48,14 +59,13 @@ Typography:
 - NO inline styles for colors or typography. Tailwind classes exclusively.
 
 ## Brand Feel
-Intelligent, premium, minimal. **Navy-dominant** site: dark navy is the primary
-identity (Hero, Experience, Tech/Why-Choose-Us band, Contact, Footer), with
-deliberate light sections (`--color-offwhite` / `--color-light-blue`) alternating
-between them for rhythm (About, Vision & Mission, Capabilities, Outcomes,
-Industries, Methodology, Leadership). Do not convert defined light sections to
-dark or vice versa; follow the established per-section background.
-Blue accents used sparingly. Lots of whitespace. The logo = **N monogram +
-circular orbit + dot** — echo that orbit/dot motif in section dividers,
+Luxury enterprise AI consulting: minimal, editorial, premium, dark. The whole
+site is dark — sections alternate between `bg-brand-dark` (#050505) and
+`bg-brand-dark-2` (#090909) for very subtle rhythm; matte `brand-surface`
+cards with `brand-line` hairline borders sit on top. Indigo accents used
+sparingly; soft glows instead of heavy shadows; generous whitespace (Linear /
+Vercel / OpenAI energy). Icons are monochrome/outline. The logo = **N monogram
++ circular orbit + dot** — echo that orbit/dot motif in section dividers,
 background accents, and hover states via the shared `OrbitMotif` component.
 
 ## Content

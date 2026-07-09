@@ -4,12 +4,18 @@
 
 :root {
   /* RGB channel triples (not hex) so Tailwind's bg-brand-dark/80 style
-     opacity modifiers can inject an alpha channel via rgb(var(...) / a). */
-  --color-dark: 17 24 39; /* #111827 */
-  --color-slate: 107 114 128; /* #6B7280 */
-  --color-accent: 140 169 255; /* #8CA9FF */
-  --color-light-blue: 214 224 242; /* #D6E0F2 */
-  --color-offwhite: 245 247 250; /* #F5F7FA */
+     opacity modifiers can inject an alpha channel via rgb(var(...) / a).
+     Dark-luxury palette: near-black backgrounds, matte surfaces, indigo
+     accent. */
+  --color-dark: 5 5 5; /* #050505 — primary background */
+  --color-dark-2: 9 9 9; /* #090909 — alternate section background */
+  --color-surface: 17 17 17; /* #111111 — cards, matte panels */
+  --color-surface-2: 21 21 21; /* #151515 — raised surfaces */
+  --color-accent: 91 91 255; /* #5B5BFF — primary accent */
+  --color-accent-2: 124 108 255; /* #7C6CFF — secondary accent */
+  --color-offwhite: 245 245 245; /* #F5F5F5 — primary text */
+  --color-slate: 184 184 184; /* #B8B8B8 — secondary text */
+  --color-muted: 122 122 122; /* #7A7A7A — muted text */
 }
 
 html {
@@ -25,8 +31,19 @@ html {
 }
 
 body {
-  background: rgb(var(--color-offwhite));
-  color: rgb(var(--color-dark));
+  background: rgb(var(--color-dark));
+  color: rgb(var(--color-offwhite));
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
 }
 
 @layer utilities {

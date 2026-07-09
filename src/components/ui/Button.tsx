@@ -22,11 +22,11 @@ type NativeButtonProps = CommonProps &
 type ButtonProps = LinkProps | NativeButtonProps;
 
 const baseStyles =
-  "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-press duration-160 ease-out active:scale-97 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent";
+  "inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium tracking-wide transition-press duration-160 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-97 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent";
 
 const variantStyles: Record<Variant, string> = {
-  primary: "bg-brand-accent text-brand-dark hover:brightness-95",
-  outline: "border border-current hover:bg-white/10",
+  primary: "bg-brand-accent text-white shadow-glow-sm hover:shadow-glow",
+  outline: "border border-white/15 hover:bg-brand-surface",
 };
 
 export default function Button({

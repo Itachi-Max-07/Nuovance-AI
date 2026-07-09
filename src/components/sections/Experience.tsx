@@ -22,16 +22,16 @@ function ProjectCard({ project, variants }: ProjectCardProps) {
       variants={variants}
       whileHover={{ y: -4 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="group relative flex flex-col overflow-hidden rounded-3xl bg-white/[0.03] ring-1 ring-white/10 transition-colors duration-300 hover:ring-brand-accent/40"
+      className="group relative flex flex-col overflow-hidden rounded-card bg-brand-surface ring-1 ring-brand-line transition-colors duration-300 hover:ring-brand-accent/40"
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-brand-dark via-brand-dark to-brand-accent/15">
+      <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-brand-dark-2 via-brand-dark-2 to-brand-accent/10">
         <div
           aria-hidden="true"
           className="absolute inset-0 flex items-center justify-center transition-transform duration-700 ease-out group-hover:rotate-45"
         >
           <OrbitMotif className="h-16 w-16 text-brand-accent/30 sm:h-20 sm:w-20" />
         </div>
-        <span className="absolute left-4 top-4 inline-flex items-center rounded-full border border-brand-accent/25 bg-brand-dark/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-accent backdrop-blur-sm">
+        <span className="absolute left-4 top-4 inline-flex items-center rounded-full border border-brand-accent/25 bg-brand-dark/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-accent-2 backdrop-blur-sm">
           {project.category}
         </span>
       </div>
@@ -47,13 +47,13 @@ function ProjectCard({ project, variants }: ProjectCardProps) {
           </h3>
         </div>
 
-        <p className="text-sm leading-relaxed text-brand-light-blue sm:text-base">
+        <p className="text-sm leading-relaxed text-brand-slate sm:text-base">
           {project.description}
         </p>
 
         <ul className="flex flex-col gap-2">
           {project.outcomes.map((outcome) => (
-            <li key={outcome} className="flex items-start gap-2 text-sm leading-relaxed text-brand-light-blue">
+            <li key={outcome} className="flex items-start gap-2 text-sm leading-relaxed text-brand-slate">
               <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand-accent/70" />
               <span>{outcome}</span>
             </li>
@@ -64,7 +64,7 @@ function ProjectCard({ project, variants }: ProjectCardProps) {
           {project.stack.map((tech) => (
             <span
               key={tech}
-              className="rounded-full border border-white/15 px-3 py-1 text-xs font-medium text-brand-light-blue"
+              className="rounded-full border border-brand-line px-3 py-1 text-xs font-medium text-brand-slate"
             >
               {tech}
             </span>
@@ -115,7 +115,7 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="relative overflow-hidden bg-brand-dark py-16 sm:py-20 md:py-24 lg:py-28"
+      className="relative overflow-hidden bg-brand-dark py-20 sm:py-24 md:py-28 lg:py-36"
     >
       <div
         aria-hidden="true"
@@ -139,15 +139,15 @@ export default function Experience() {
         className="relative z-10 mx-auto max-w-6xl px-6 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
             {experience.heading}
           </span>
         </motion.div>
 
         <motion.h2
           variants={itemVariants}
-          className="mt-6 max-w-2xl text-balance text-3xl font-bold tracking-tight text-brand-offwhite sm:text-4xl lg:text-5xl"
+          className="mt-6 max-w-2xl text-balance text-3xl font-semibold tracking-tight text-brand-offwhite sm:text-4xl lg:text-5xl"
         >
           {experience.subheading}
         </motion.h2>
@@ -157,7 +157,7 @@ export default function Experience() {
             <motion.p
               key={paragraph}
               variants={itemVariants}
-              className="text-base leading-relaxed text-brand-light-blue sm:text-lg"
+              className="text-base leading-relaxed text-brand-slate sm:text-lg"
             >
               {paragraph}
             </motion.p>
@@ -178,7 +178,7 @@ export default function Experience() {
           {experience.highlights.map((highlight) => (
             <li
               key={highlight}
-              className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.1em] text-brand-light-blue sm:text-sm"
+              className="rounded-full border border-brand-line bg-brand-surface px-4 py-2 text-xs font-medium uppercase tracking-[0.1em] text-brand-slate sm:text-sm"
             >
               {highlight}
             </li>
@@ -187,14 +187,14 @@ export default function Experience() {
 
         <motion.div
           variants={itemVariants}
-          className="mt-12 grid grid-cols-2 divide-x divide-y divide-white/10 overflow-hidden rounded-3xl bg-white/[0.03] ring-1 ring-white/10 sm:mt-16 sm:grid-cols-4 sm:divide-y-0"
+          className="mt-12 grid grid-cols-2 divide-x divide-y divide-brand-line overflow-hidden rounded-card bg-brand-surface ring-1 ring-brand-line sm:mt-16 sm:grid-cols-4 sm:divide-y-0"
         >
           {experience.stats.map((stat) => (
             <div key={stat.label} className="flex flex-col items-center gap-1 px-4 py-6 text-center sm:py-8">
-              <span className="text-3xl font-bold tabular-nums text-brand-accent sm:text-4xl lg:text-5xl">
+              <span className="font-heading text-3xl font-semibold tabular-nums text-brand-accent-2 sm:text-4xl lg:text-5xl">
                 {stat.value}
               </span>
-              <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-brand-light-blue sm:text-xs">
+              <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-brand-slate sm:text-xs">
                 {stat.label}
               </span>
             </div>

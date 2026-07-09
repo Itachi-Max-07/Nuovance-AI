@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion, type Transition, type Variants } from "framer-motion";
 import Button from "@/components/ui/Button";
+import Globe from "@/components/ui/Globe";
 import OrbitMotif from "@/components/ui/OrbitMotif";
 import { hero } from "@/lib/content";
 
@@ -47,10 +48,17 @@ export default function Hero() {
     >
       <div
         aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 flex justify-center"
+      >
+        <div className="h-96 w-full max-w-3xl -translate-y-1/2 rounded-full bg-brand-accent/15 blur-3xl" />
+      </div>
+
+      <div
+        aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
       >
         <motion.div
-          className="h-[130vw] w-[130vw] max-h-[880px] max-w-[880px] text-brand-accent sm:h-[95vw] sm:w-[95vw] md:h-[75vw] md:w-[75vw] lg:h-[60vw] lg:w-[60vw]"
+          className="h-[130vw] w-[130vw] max-h-[880px] max-w-[880px] text-brand-accent-2 sm:h-[95vw] sm:w-[95vw] md:h-[75vw] md:w-[75vw] lg:h-[60vw] lg:w-[60vw]"
           initial={{ opacity: 0, rotate: 0 }}
           animate={backgroundAnimate}
           transition={backgroundTransition}
@@ -60,28 +68,41 @@ export default function Hero() {
       </div>
 
       <motion.div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 z-0 flex justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }}
+      >
+        <div className="relative aspect-square w-[140vw] max-w-[900px] translate-y-[58%] sm:w-[100vw] md:w-[80vw] lg:w-[64vw]">
+          <Globe className="max-w-none" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-brand-dark to-transparent" />
+        </div>
+      </motion.div>
+
+      <motion.div
         variants={contentVariants}
         initial="hidden"
         animate="visible"
         className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-5 px-6 text-center sm:gap-6 md:gap-8 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
             {hero.eyebrow}
           </span>
         </motion.div>
 
         <motion.h1
           variants={itemVariants}
-          className="text-balance text-4xl font-bold leading-[1.15] tracking-tight text-brand-offwhite sm:text-5xl lg:text-6xl"
+          className="text-balance text-4xl font-semibold leading-[1.1] tracking-tight text-brand-offwhite sm:text-5xl lg:text-7xl"
         >
           {hero.headline}
         </motion.h1>
 
         <motion.p
           variants={itemVariants}
-          className="max-w-2xl text-lg font-medium leading-relaxed text-brand-light-blue sm:text-xl md:text-2xl"
+          className="max-w-2xl text-lg font-normal leading-relaxed text-brand-slate sm:text-xl"
         >
           {hero.positioning}
         </motion.p>
@@ -124,11 +145,11 @@ export default function Hero() {
           {hero.disciplines.map((discipline, index) => (
             <li
               key={discipline}
-              className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-brand-light-blue"
+              className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-brand-muted"
             >
               <span>{discipline}</span>
               {index < hero.disciplines.length - 1 && (
-                <span aria-hidden="true" className="text-brand-light-blue/40">
+                <span aria-hidden="true" className="text-brand-muted/50">
                   ·
                 </span>
               )}
