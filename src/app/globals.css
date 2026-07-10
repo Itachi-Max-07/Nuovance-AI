@@ -16,6 +16,25 @@
   --color-offwhite: 245 245 245; /* #F5F5F5 — primary text */
   --color-slate: 184 184 184; /* #B8B8B8 — secondary text */
   --color-muted: 122 122 122; /* #7A7A7A — muted text */
+
+  /* Soft Brutalism card system (July 2026): hard offset shadows, thick
+     borders, tactile lift-on-hover. Blue is intentionally saturated —
+     it only ever appears as shadow/border/accent, never as large fills. */
+  --color-dark-3: 15 15 15; /* #0F0F0F — tag/pill wells inside cards */
+  --color-blue: 37 99 235; /* #2563EB — brutalist accent */
+  --color-green: 52 211 153; /* #34D399 — success/qualified states on dark */
+
+  /* Light hero palette (Weave-style editorial hero). Scoped by usage: only
+     the hero section and its workflow canvas consume these. */
+  --hero-bg: 250 250 250; /* #FAFAFA — glossy white base */
+  --hero-surface: 255 255 255; /* #FFFFFF — frosted glass cards */
+  --hero-ink: 17 24 39; /* #111827 — primary dark typography */
+  --hero-body: 107 114 128; /* #6B7280 — secondary text */
+  --hero-line: 229 231 235; /* #E5E7EB — thin subtle borders */
+  --hero-accent: 59 130 246; /* #3B82F6 — connection lines, particles */
+  --hero-cyan: 8 145 178; /* #0891B2 — soft cyan accent (AA on white) */
+  --hero-green: 5 150 105; /* #059669 — live/success status */
+  --hero-violet: 124 58 237; /* #7C3AED — AI processing status */
 }
 
 html {
@@ -33,6 +52,9 @@ html {
 body {
   background: rgb(var(--color-dark));
   color: rgb(var(--color-offwhite));
+  /* Never allow stray overflow to widen the page — `clip` (unlike `hidden`)
+     forbids sideways scrolling entirely and keeps the sticky Navbar working. */
+  overflow-x: clip;
 }
 
 @layer base {
@@ -43,6 +65,142 @@ body {
   h5,
   h6 {
     @apply font-heading;
+  }
+}
+
+@layer components {
+  /* ---- Soft Brutalism card system ----
+     One shared class so every card on the site stays identical. CSS owns the
+     hover transform; Framer Motion must only ever animate an entry WRAPPER
+     around .card-brutal, never the card element itself, or the two fight
+     over `transform` (same contract as the old brutalist capability cards). */
+  .card-brutal {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    background: rgb(var(--color-surface-2));
+    box-shadow: 8px 8px 0 0 rgb(var(--color-blue) / 0.9);
+    transition:
+      transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .card-brutal:hover {
+    cursor: pointer;
+    /* Lifted card (and its grown shadow) must paint above grid neighbors. */
+    z-index: 10;
+    border-color: rgb(var(--color-blue));
+    /* Hard offset block + a soft glow so the lift reads as light, not blur. */
+    box-shadow:
+      14px 14px 0 0 rgb(var(--color-blue)),
+      0 0 32px 0 rgb(var(--color-blue) / 0.35);
+  }
+
+  /* Small blue indicator dot pinned to every card's top-right corner. */
+  .card-brutal::after {
+    content: "";
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    height: 7px;
+    width: 7px;
+    border-radius: 999px;
+    background: rgb(var(--color-blue));
+    opacity: 0.55;
+    pointer-events: none;
+    transition:
+      opacity 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .card-brutal:hover::after {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+
+  /* Geometric corner bracket hugging the bottom-left of the card. */
+  .card-brutal::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    border-bottom-left-radius: 14px;
+    border-bottom: 2px solid rgb(var(--color-blue) / 0.4);
+    border-left: 2px solid rgb(var(--color-blue) / 0.4);
+    pointer-events: none;
+    transition: border-color 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .card-brutal:hover::before {
+    border-color: rgb(var(--color-blue) / 0.9);
+  }
+
+  /* ---- Soft Brutalism tag / pill system (tech chips, industries, socials) ---- */
+  .tag-brutal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: rgb(var(--color-dark-3));
+    padding: 10px 18px;
+    font-weight: 700;
+    color: rgb(var(--color-slate));
+    transition:
+      background-color 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      color 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .tag-brutal:hover {
+    cursor: pointer;
+    background: rgb(var(--color-blue));
+    border-color: rgb(var(--color-blue));
+    color: #ffffff;
+  }
+}
+
+/* All Soft Brutalism movement is transform-only (GPU-composited) and fully
+   gated behind reduced-motion; colors/shadows still respond without it. */
+@media (prefers-reduced-motion: no-preference) {
+  .card-brutal:hover {
+    transform: translate(-6px, -6px) scale(1.02);
+  }
+
+  /* Alternating resting tilt (Why Choose Us) that straightens on hover. */
+  .card-brutal-tilt-l {
+    transform: rotate(-1deg);
+  }
+
+  .card-brutal-tilt-r {
+    transform: rotate(1deg);
+  }
+
+  .card-brutal-tilt-l:hover,
+  .card-brutal-tilt-r:hover {
+    transform: translate(-6px, -6px) scale(1.02) rotate(0deg);
+  }
+
+  /* Deterministic "random" tilt per pill: -2° … 2° depending on position. */
+  .tag-brutal:hover {
+    transform: scale(1.05) rotate(2deg);
+  }
+
+  .tag-brutal:nth-child(2n):hover {
+    transform: scale(1.05) rotate(-2deg);
+  }
+
+  .tag-brutal:nth-child(3n):hover {
+    transform: scale(1.05) rotate(1deg);
+  }
+
+  .tag-brutal:nth-child(5n):hover {
+    transform: scale(1.05) rotate(-1deg);
   }
 }
 
@@ -61,6 +219,130 @@ body {
     transform-style: preserve-3d;
     animation: orbit-3d-spin 10s cubic-bezier(0.77, 0, 0.175, 1) infinite;
   }
+
+  /* ---- Light hero decorative layers. Static backgrounds: painted once,
+     no per-frame cost. All motion below animates transform/opacity only. ---- */
+
+  /* Extremely subtle dotted grid, fading out toward the edges. */
+  .hero-dots {
+    background-image: radial-gradient(
+      circle,
+      rgb(var(--hero-ink) / 0.05) 1px,
+      transparent 1px
+    );
+    background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(
+      ellipse 85% 70% at 50% 40%,
+      black 25%,
+      transparent 75%
+    );
+    mask-image: radial-gradient(
+      ellipse 85% 70% at 50% 40%,
+      black 25%,
+      transparent 75%
+    );
+  }
+
+  /* Film-grain noise at ~1.5% opacity so the white never feels flat. */
+  .hero-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.015;
+  }
+
+  /* Soft vignette hugging the hero edges. */
+  .hero-vignette {
+    background: radial-gradient(
+      ellipse 130% 110% at 50% 42%,
+      transparent 62%,
+      rgb(var(--hero-ink) / 0.05) 100%
+    );
+  }
+
+  /* Soft blue radial glow sitting behind the workflow canvas. */
+  .hero-canvas-glow {
+    background: radial-gradient(
+      ellipse 60% 55% at 62% 42%,
+      rgb(var(--hero-accent) / 0.09),
+      rgb(var(--hero-cyan) / 0.04) 45%,
+      transparent 72%
+    );
+  }
+
+  /* Gentle idle float for workflow cards; duration/delay staggered inline. */
+  .hero-float {
+    animation: hero-float 6s ease-in-out infinite;
+  }
+
+  /* Very slow ambient drift for the blurred glass spheres. */
+  .hero-drift {
+    animation: hero-drift 22s ease-in-out infinite;
+  }
+
+  /* Soft pulse ring behind live status dots. */
+  .hero-pulse-ring {
+    animation: hero-pulse-ring 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+  }
+
+  /* Data packet travelling down the mobile (stacked) connectors. */
+  .hero-flow-y {
+    animation: hero-flow-y 1.8s ease-in-out infinite;
+  }
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes hero-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(28px, -20px, 0) scale(1.06);
+  }
+}
+
+@keyframes hero-pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  80%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes hero-flow-y {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  25%,
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(22px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-float,
+  .hero-drift,
+  .hero-pulse-ring,
+  .hero-flow-y {
+    animation: none;
+  }
 }
 
 @keyframes orbit-3d-spin {
@@ -75,5 +357,354 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .orbit-3d {
     animation: none;
+  }
+}
+
+/* ==== Workflow Story (pinned scrollytelling case study) ====
+   All classes are ws-prefixed and scoped to the WorkflowStory section.
+   Every animation below moves transform/opacity only (GPU-composited) and
+   is disabled wholesale under prefers-reduced-motion at the bottom. */
+
+/* Section background: continues About's #090909 and hands off into Vision &
+   Mission's #050505 with no visible seam. */
+.ws-section-bg {
+  background: linear-gradient(
+    180deg,
+    rgb(var(--color-dark-2)) 0%,
+    rgb(var(--color-dark-2)) 60%,
+    rgb(var(--color-dark)) 100%
+  );
+}
+
+/* Ambient indigo glows — the top one extends the About section's light. */
+.ws-glow-a {
+  background: radial-gradient(
+    ellipse 70% 42% at 50% 0%,
+    rgb(var(--color-accent) / 0.09),
+    transparent 70%
+  );
+}
+
+.ws-glow-b {
+  background: radial-gradient(
+    ellipse 55% 45% at 50% 55%,
+    rgb(var(--color-accent) / 0.07),
+    rgb(var(--color-accent-2) / 0.03) 45%,
+    transparent 72%
+  );
+}
+
+/* Extremely faint blueprint grid, drifting diagonally one cell per loop.
+   The element is oversized by one cell (inset: -56px) so the pan never
+   exposes an edge. */
+.ws-grid {
+  position: absolute;
+  inset: -56px;
+  background-image: linear-gradient(
+      rgb(var(--color-accent) / 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgb(var(--color-accent) / 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 75% 65% at 50% 45%,
+    black 25%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, black 25%, transparent 78%);
+  animation: ws-grid-pan 46s linear infinite;
+}
+
+@keyframes ws-grid-pan {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-56px, -56px, 0);
+  }
+}
+
+/* Soft floating particles; per-particle position/delay set inline. */
+.ws-particle {
+  position: absolute;
+  height: 4px;
+  width: 4px;
+  border-radius: 9999px;
+  background: rgb(var(--color-accent-2) / 0.6);
+  opacity: 0.22;
+  animation: ws-particle-float 15s ease-in-out infinite;
+}
+
+@keyframes ws-particle-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(10px, -42px, 0);
+  }
+}
+
+/* Slow ambient light streaks sliding across the section. */
+.ws-streak {
+  position: absolute;
+  height: 1px;
+  width: 42%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(var(--color-accent) / 0.28),
+    transparent
+  );
+  opacity: 0;
+  animation: ws-streak-drift 17s ease-in-out infinite;
+}
+
+@keyframes ws-streak-drift {
+  0% {
+    transform: translate3d(-70%, 0, 0);
+    opacity: 0;
+  }
+  30%,
+  70% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate3d(190%, 0, 0);
+    opacity: 0;
+  }
+}
+
+/* Fixed-height stage the nine scenes stack inside while pinned. Sized so
+   header + stage always fit one viewport, including short laptop screens. */
+.ws-stage {
+  position: relative;
+  height: clamp(360px, 52vh, 600px);
+}
+
+/* Scene shells: crossfade + gentle vertical morph between steps. Scenes stay
+   mounted (opacity only) so re-entering while scrubbing backwards is smooth. */
+.ws-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(34px) scale(0.975);
+  transition:
+    opacity 600ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 600ms cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none;
+}
+
+.ws-scene-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.ws-scene-past {
+  transform: translateY(-34px) scale(0.975);
+}
+
+/* Pause every in-scene animation while its scene is hidden — keeps the
+   pinned section at 60fps with nine scenes mounted. */
+.ws-scene:not(.ws-scene-active) * {
+  animation-play-state: paused;
+}
+
+/* Glassmorphism panel: thin glowing accent border on frosted brand surface. */
+.ws-glass {
+  border-radius: 20px;
+  border: 1px solid rgb(var(--color-accent) / 0.22);
+  background: rgb(var(--color-surface) / 0.62);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 0 40px rgb(var(--color-accent) / 0.08),
+    0 18px 44px rgba(0, 0, 0, 0.42);
+}
+
+/* Step heading swap above the stage (element is re-keyed per step). */
+.ws-fade-in {
+  animation: ws-fade-in 500ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes ws-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Staggered rise-in for items inside a scene; runs (and re-runs) each time
+   the parent scene becomes active. Per-item delay is set inline. */
+.ws-item {
+  opacity: 0;
+}
+
+.ws-scene-active .ws-item {
+  animation: ws-item-in 700ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes ws-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Gentle idle float for cards already in view (applied to an inner child so
+   it never fights ws-item's entry animation). */
+.ws-float {
+  animation: ws-float 6s ease-in-out infinite;
+}
+
+@keyframes ws-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Radar sweep over the Germany map (scene 1). */
+.ws-radar {
+  position: absolute;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0deg,
+    rgb(var(--color-accent) / 0.3),
+    rgb(var(--color-accent) / 0.06) 55deg,
+    transparent 100deg
+  );
+  -webkit-mask-image: radial-gradient(circle, black 28%, transparent 70%);
+  mask-image: radial-gradient(circle, black 28%, transparent 70%);
+  animation: ws-rotate 4.5s linear infinite;
+}
+
+@keyframes ws-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Business pins popping onto the map; per-pin delay inline. */
+.ws-pin {
+  opacity: 0;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.ws-scene-active .ws-pin {
+  animation: ws-pin-pop 500ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes ws-pin-pop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Soft expanding pulse ring (live dots, success check). */
+.ws-pulse-ring {
+  animation: ws-pulse 2.2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}
+
+@keyframes ws-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  80%,
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+/* AI qualification score bars: scaleX to a per-row --ws-bar value. */
+.ws-bar {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 900ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.ws-scene-active .ws-bar {
+  transform: scaleX(var(--ws-bar, 1));
+}
+
+/* Typing caret in the email scene. */
+.ws-caret {
+  animation: ws-blink 1s steps(2, start) infinite;
+}
+
+@keyframes ws-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Data packets flowing along launch/connection paths (SVG strokes). */
+.ws-dash {
+  stroke-dasharray: 6 12;
+  animation: ws-dash-flow 1.1s linear infinite;
+}
+
+@keyframes ws-dash-flow {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws-grid,
+  .ws-particle,
+  .ws-streak,
+  .ws-radar,
+  .ws-pulse-ring,
+  .ws-caret,
+  .ws-dash,
+  .ws-float,
+  .ws-fade-in,
+  .ws-scene-active .ws-item,
+  .ws-scene-active .ws-pin {
+    animation: none;
+  }
+
+  .ws-scene {
+    transition: none;
+  }
+
+  /* Static fallback renders everything fully visible in its final state. */
+  .ws-item,
+  .ws-pin {
+    opacity: 1;
+    transform: none;
+  }
+
+  .ws-bar {
+    transform: scaleX(var(--ws-bar, 1));
+    transition: none;
   }
 }

@@ -33,6 +33,42 @@ export interface TechGroup {
   tools: string[];
 }
 
+/* ---------- Workflow Story (scroll-driven case study) ---------- */
+
+export interface StoryStep {
+  id: string;
+  /** Short label shown in the progress rail. */
+  label: string;
+  title: string;
+  description: string;
+}
+
+export interface StoryCompany {
+  name: string;
+  website: string;
+  industry: string;
+  employees: string;
+  email: string;
+  location: string;
+  /** AI confidence score, 0–100. */
+  score: number;
+  qualified: boolean;
+}
+
+export interface StoryStat {
+  label: string;
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+}
+
+export interface StoryMapPin {
+  /** Coordinates inside the 240×320 Germany map viewBox. */
+  x: number;
+  y: number;
+}
+
 /* ---------- Booking URL (single source of truth for all CTAs) ---------- */
 // TODO: replace with your real Cal.com or Calendly link, e.g.
 // "https://cal.com/nuovance-ai/strategy-call"
@@ -58,6 +94,8 @@ export const brand = {
 export const hero = {
   eyebrow: "Nuovance AI",
   headline: "Engineering the Future with Artificial Intelligence",
+  // Phrase inside `headline` rendered with the gradient accent treatment.
+  headlineAccent: "Artificial Intelligence",
   positioning:
     "We don't simply build software. We engineer intelligent business ecosystems.",
   disciplines: [
@@ -71,6 +109,92 @@ export const hero = {
   primaryCta: { label: "Schedule a Strategy Consultation", href: bookingHref },
   secondaryCta: { label: "Request a Custom AI Solution", href: "#contact" },
   website: "www.NuovanceAI.com",
+};
+
+/* ---------- Hero workflow (animated n8n-style canvas in the hero) ---------- */
+
+export type HeroWorkflowStatusTone = "live" | "working" | "done";
+
+export interface HeroWorkflowStatus {
+  label: string;
+  tone: HeroWorkflowStatusTone;
+}
+
+export interface HeroWorkflowNode {
+  id: string;
+  tool: string;
+  action: string;
+  logo: { src: string; alt: string };
+  status: HeroWorkflowStatus;
+  metrics: string[];
+  /** Visually emphasized node — the AI step at the center of the story. */
+  highlight?: boolean;
+}
+
+export const heroWorkflow = {
+  caption: "Outbound growth engine",
+  captionStatus: "Live",
+  ariaLabel:
+    "Animated diagram of an automated outbound workflow: Apollo.io finds decision makers, NeverBounce verifies emails, Clay enriches contact data, GPT-5.5 generates personalized outreach, Smartlead launches the email campaign, HubSpot creates qualified leads, and Slack notifies the sales team.",
+  nodes: [
+    {
+      id: "apollo",
+      tool: "Apollo.io",
+      action: "Finding decision makers",
+      logo: { src: "/logo/apollo.io.svg", alt: "Apollo.io logo" },
+      status: { label: "Running", tone: "live" },
+      metrics: ["🇺🇸 United States", "1,284 Prospects"],
+    },
+    {
+      id: "neverbounce",
+      tool: "NeverBounce",
+      action: "Verifying emails",
+      logo: { src: "/logo/neverbounce.svg", alt: "NeverBounce logo" },
+      status: { label: "Success", tone: "done" },
+      metrics: ["97.8% Valid"],
+    },
+    {
+      id: "clay",
+      tool: "Clay",
+      action: "Enriching contact data",
+      logo: { src: "/logo/clay.svg", alt: "Clay logo" },
+      status: { label: "Complete", tone: "done" },
+      metrics: ["Industry", "Revenue", "Employees"],
+    },
+    {
+      id: "gpt",
+      tool: "GPT-5.5",
+      action: "Generating personalized outreach",
+      logo: { src: "/logo/openai.svg", alt: "OpenAI logo" },
+      status: { label: "Processing", tone: "working" },
+      metrics: ["✨ 500 Emails"],
+      highlight: true,
+    },
+    {
+      id: "smartlead",
+      tool: "Smartlead",
+      action: "Launching email campaign",
+      logo: { src: "/logo/smartlead.svg", alt: "Smartlead logo" },
+      status: { label: "Active", tone: "live" },
+      metrics: ["500 Scheduled", "34 Replies"],
+    },
+    {
+      id: "hubspot",
+      tool: "HubSpot",
+      action: "Creating qualified leads",
+      logo: { src: "/logo/hubspot.svg", alt: "HubSpot logo" },
+      status: { label: "Synced", tone: "done" },
+      metrics: ["43 SQLs"],
+    },
+    {
+      id: "slack",
+      tool: "Slack",
+      action: "Notifying sales team",
+      logo: { src: "/logo/slack.svg", alt: "Slack logo" },
+      status: { label: "Delivered", tone: "done" },
+      metrics: ["🎉 Demo Booked", "Just now"],
+    },
+  ] as HeroWorkflowNode[],
 };
 
 /* ---------- About / Overview ---------- */
@@ -87,6 +211,227 @@ export const about = {
     "Nuovance AI was founded to solve these challenges through Artificial Intelligence, Automation, Software Engineering, and Digital Innovation.",
     "Our approach combines business strategy with modern engineering to build secure, scalable, and future-ready solutions that create measurable value. We believe technology should simplify business — not complicate it.",
   ],
+};
+
+/* ---------- Workflow Story (pinned scrollytelling case study) ----------
+   NOTE: every company, contact, and metric below is ILLUSTRATIVE demo data
+   for the animated case study — not real businesses or real results. */
+
+export const workflowStory = {
+  eyebrow: "Case Study",
+  heading: "One workflow. Zero manual work.",
+  subheading:
+    "Scroll through a real AI lead-generation pipeline — from the first market scan to a booked meeting.",
+  ariaLabel:
+    "Scroll-driven case study in nine steps: scan the German market, extract company records, qualify leads with AI scoring, sync qualified leads to a CRM, generate personalized cold outreach, launch the campaign, track engagement, book a meeting, and review the final results.",
+  steps: [
+    {
+      id: "scan",
+      label: "Scan",
+      title: "Scan Germany",
+      description:
+        "A live radar sweeps the market and surfaces every business that fits the target profile.",
+    },
+    {
+      id: "extract",
+      label: "Extract",
+      title: "Find & extract leads",
+      description:
+        "Every pin becomes a complete company record — no manual research required.",
+    },
+    {
+      id: "qualify",
+      label: "Qualify",
+      title: "AI qualification & scoring",
+      description:
+        "Each lead is analyzed. Weak fits fade away; strong fits earn a confidence score.",
+    },
+    {
+      id: "crm",
+      label: "CRM",
+      title: "Qualified leads land in your CRM",
+      description:
+        "Rows populate Airtable, HubSpot, or Google Sheets automatically as leads qualify.",
+    },
+    {
+      id: "personalize",
+      label: "Personalize",
+      title: "AI writes the outreach",
+      description:
+        "Human-sounding emails, built from real company research and identified pain points.",
+    },
+    {
+      id: "launch",
+      label: "Launch",
+      title: "Campaign goes live",
+      description:
+        "Hundreds of personalized emails ship simultaneously, each on its own delivery path.",
+    },
+    {
+      id: "track",
+      label: "Track",
+      title: "Engagement, tracked live",
+      description: "Opens, replies, and clicks stream into one dashboard in real time.",
+    },
+    {
+      id: "meeting",
+      label: "Meeting",
+      title: "Meeting booked",
+      description: "A qualified prospect lands on the calendar — automatically.",
+    },
+    {
+      id: "summary",
+      label: "Results",
+      title: "Automation complete",
+      description: "The whole pipeline ran itself. Here's what it produced.",
+    },
+  ] as StoryStep[],
+  scan: {
+    region: "Germany",
+    statusLabel: "Scanning market",
+    counterLabel: "Businesses discovered",
+    total: 2847,
+    pins: [
+      { x: 152, y: 92 }, // Berlin
+      { x: 106, y: 52 }, // Hamburg
+      { x: 148, y: 248 }, // Munich
+      { x: 50, y: 116 }, // Cologne
+      { x: 82, y: 158 }, // Frankfurt
+      { x: 98, y: 218 }, // Stuttgart
+      { x: 150, y: 128 }, // Leipzig
+      { x: 84, y: 58 }, // Bremen
+      { x: 44, y: 106 }, // Düsseldorf
+      { x: 138, y: 198 }, // Nuremberg
+      { x: 172, y: 140 }, // Dresden
+      { x: 100, y: 84 }, // Hannover
+    ] as StoryMapPin[],
+  },
+  companies: [
+    {
+      name: "Meyer GmbH",
+      website: "meyer-gmbh.de",
+      industry: "Software",
+      employees: "45",
+      email: "hello@meyer-gmbh.de",
+      location: "Berlin",
+      score: 94,
+      qualified: true,
+    },
+    {
+      name: "Schneider Logistik",
+      website: "schneider-logistik.de",
+      industry: "Logistics",
+      employees: "120",
+      email: "kontakt@schneider-logistik.de",
+      location: "Hamburg",
+      score: 88,
+      qualified: true,
+    },
+    {
+      name: "Vogel Consulting",
+      website: "vogel-consulting.de",
+      industry: "B2B Consulting",
+      employees: "30",
+      email: "info@vogel-consulting.de",
+      location: "Munich",
+      score: 91,
+      qualified: true,
+    },
+    {
+      name: "Brandt Metallbau",
+      website: "brandt-metallbau.de",
+      industry: "Manufacturing",
+      employees: "15",
+      email: "post@brandt-metallbau.de",
+      location: "Dortmund",
+      score: 41,
+      qualified: false,
+    },
+    {
+      name: "Keller Immobilien",
+      website: "keller-immo.de",
+      industry: "Real Estate",
+      employees: "8",
+      email: "office@keller-immo.de",
+      location: "Frankfurt",
+      score: 37,
+      qualified: false,
+    },
+  ] as StoryCompany[],
+  qualification: {
+    engineLabel: "AI Qualification Engine",
+    analyzingLabel: "Analyzing fit, intent & reachability",
+    qualifiedLabel: "Qualified",
+    filteredLabel: "Filtered out",
+  },
+  crm: {
+    destinations: ["Airtable", "HubSpot", "Google Sheets"],
+    activeDestination: "Airtable",
+    columns: ["Company", "Industry", "Score", "Status"],
+    counterLabel: "Qualified leads synced",
+    total: 312,
+    syncedStatus: "Synced",
+  },
+  email: {
+    sender: "Nuovance AI",
+    recipientName: "Noah Meyer",
+    recipientCompany: "Meyer GmbH",
+    recipientRole: "Managing Director",
+    subject: "Quick idea for scaling lead generation at Meyer GmbH",
+    // Typed out character-by-character in the scene.
+    body: [
+      "Hi Noah,",
+      "I noticed Meyer GmbH is growing in the software space. Many teams at this stage spend hours manually finding and qualifying leads before outreach even begins.",
+      "We help automate that entire workflow — from lead sourcing and AI qualification to personalized outreach — so your team can focus on closing deals instead of repetitive tasks.",
+      "Would you be open to a quick 15-minute conversation next week?",
+      "Best,\nNuovance AI",
+    ],
+    researchTitle: "Research highlights",
+    research: [
+      "Software company in Berlin, growing ~40% YoY",
+      "Hiring SDRs — outbound is a current priority",
+      "No automation detected in the existing stack",
+    ],
+    badge: "Personalized with AI",
+    sendLabel: "Send",
+    sentLabel: "Queued",
+  },
+  launch: {
+    heading: "298 personalized emails in flight",
+    states: ["Sending", "Delivered", "Sent"],
+    targets: ["Meyer GmbH", "Schneider Logistik", "Vogel Consulting"],
+  },
+  analytics: {
+    heading: "Live campaign analytics",
+    stats: [
+      { label: "Emails Opened", value: 186 },
+      { label: "Replies Received", value: 54 },
+      { label: "Click Rate", value: 12.4, suffix: "%", decimals: 1 },
+      { label: "Follow-ups Scheduled", value: 41 },
+      { label: "Positive Replies", value: 27 },
+    ] as StoryStat[],
+  },
+  meeting: {
+    title: "Meeting Booked",
+    event: "Intro call · Tuesday, 10:30 CET",
+    company: "Meyer GmbH",
+    attendee: "Noah Meyer",
+    opportunity: "Opportunity created in CRM",
+    dealValueLabel: "Est. deal value",
+    dealValue: "€24,000",
+  },
+  summary: {
+    heading: "Pipeline results",
+    stats: [
+      { label: "Businesses Scanned", value: 2847 },
+      { label: "Qualified Leads", value: 312 },
+      { label: "Emails Sent", value: 298 },
+      { label: "Reply Rate", value: 18.1, suffix: "%", decimals: 1 },
+      { label: "Meetings Booked", value: 24 },
+      { label: "Hours Saved", value: 120, suffix: "+" },
+      { label: "ROI Generated", value: 6.4, suffix: "×", decimals: 1 },
+    ] as StoryStat[],
+  },
 };
 
 /* ---------- Vision / Mission / Promise ---------- */
@@ -250,6 +595,7 @@ export interface ProjectItem {
   outcomes: string[]; // measurable results
   stack: string[];
   image?: string; // path under /public/images/work/
+  video?: string; // path under /public/videos/ — looping background video for the media area
   link?: string; // live URL or case study
 }
 
@@ -293,6 +639,7 @@ export const experience = {
       ],
       stack: ["Google Veo", "AI Video Workflows", "ffmpeg", "Content Automation"],
       image: "/images/work/ugc-video.png",
+      video: "/videos/ugc-demo.mp4",
       link: "",
     },
     {
@@ -308,6 +655,7 @@ export const experience = {
       ],
       stack: ["n8n", "API Integrations", "Workflow Automation"],
       image: "/images/work/n8n-automation.png",
+      video: "/videos/intelligent-automation.mp4",
       link: "",
     },
   ] as ProjectItem[],

@@ -11,12 +11,14 @@ import Methodology from "@/components/sections/Methodology";
 import TechEcosystem from "@/components/sections/TechEcosystem";
 import VisionMission from "@/components/sections/VisionMission";
 import WhyChooseUs from "@/components/sections/WhyChooseUs";
+import WorkflowStory from "@/components/sections/WorkflowStory";
 
 export default function Home() {
   return (
     <>
       <Hero />
       <About />
+      <WorkflowStory />
       <VisionMission />
       <Capabilities />
       <Experience />
