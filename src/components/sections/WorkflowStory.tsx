@@ -47,9 +47,6 @@ const SCENES: ComponentType<StorySceneProps>[] = [
 const STEP_COUNT = workflowStory.steps.length;
 // Scroll distance dedicated to each step while the section is pinned.
 const SCROLL_PER_STEP = 720;
-// The stage fades out over the final stretch so the pin releases into
-// Vision & Mission without a hard cut (and the story never replays).
-const FADE_START = 0.95;
 
 // Snap targets = the CENTER of each step's scroll band (aligned with
 // handleSelect below), plus 1 so the reader can always glide out past the
@@ -68,7 +65,6 @@ const useIsomorphicLayoutEffect =
 export default function WorkflowStory() {
   const shouldReduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement | null>(null);
-  const fadeRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<ScrollTrigger | null>(null);
   const activeStepRef = useRef(0);
   const [activeStep, setActiveStep] = useState(0);
@@ -98,13 +94,6 @@ export default function WorkflowStory() {
           if (index !== activeStepRef.current) {
             activeStepRef.current = index;
             setActiveStep(index);
-          }
-          if (fadeRef.current) {
-            const fade =
-              self.progress > FADE_START
-                ? 1 - (self.progress - FADE_START) / (1 - FADE_START)
-                : 1;
-            fadeRef.current.style.opacity = String(fade);
           }
         },
       });
@@ -177,7 +166,7 @@ export default function WorkflowStory() {
     >
       <StoryBackdrop />
       <div className="relative z-10 flex min-h-screen flex-col justify-center pb-8 pt-20 sm:pt-24">
-        <div ref={fadeRef} className="mx-auto w-full max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
           <StoryHeader />
 
           <div className="mt-6 flex flex-col gap-5 sm:mt-8 lg:flex-row lg:items-center lg:gap-10">

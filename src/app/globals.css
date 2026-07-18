@@ -730,10 +730,19 @@ body {
 }
 
 /* Fixed-height stage the nine scenes stack inside while pinned. Sized so
-   header + stage always fit one viewport, including short laptop screens. */
+   header + stage always fit one viewport, including short laptop screens.
+   On phones the height is derived from the small viewport minus the header/
+   step-copy above it (svh, so it can't clip the bottom counter card when the
+   URL bar is visible); the desktop clamp takes over from 640px up. */
 .ws-stage {
   position: relative;
-  height: clamp(360px, 52vh, 600px);
+  height: clamp(260px, calc(100svh - 340px), 440px);
+}
+
+@media (min-width: 640px) {
+  .ws-stage {
+    height: clamp(360px, 52vh, 600px);
+  }
 }
 
 /* Scene shells: crossfade + gentle vertical morph between steps. Scenes stay

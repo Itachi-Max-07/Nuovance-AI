@@ -25,7 +25,7 @@ export default function EmailScene({ active, reduce }: EmailSceneProps) {
   return (
     <div className="flex w-full max-w-3xl items-stretch justify-center gap-4 px-1">
       <div className="ws-item min-w-0 flex-1">
-        <div className="ws-card flex h-full flex-col p-5 sm:p-6">
+        <div className="ws-card flex h-full flex-col p-4 sm:p-6">
           <div className="flex items-center gap-3">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-accent/15 text-xs font-semibold text-brand-accent-deep">
               {AVATAR_INITIALS}
@@ -47,7 +47,7 @@ export default function EmailScene({ active, reduce }: EmailSceneProps) {
             <span className="font-medium text-brand-ink">{email.subject}</span>
           </p>
 
-          <p className="mt-3 min-h-40 flex-1 whitespace-pre-line text-xs leading-relaxed text-brand-body sm:text-sm">
+          <p className="mt-3 min-h-32 flex-1 whitespace-pre-line text-xs leading-relaxed text-brand-body sm:min-h-40 sm:text-sm">
             {text}
             {active && !done && (
               <span aria-hidden="true" className="ws-caret text-brand-accent-deep">
