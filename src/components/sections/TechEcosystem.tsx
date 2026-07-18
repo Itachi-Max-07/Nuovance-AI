@@ -42,7 +42,7 @@ export default function TechEcosystem() {
   return (
     <section
       id="tech-ecosystem"
-      className="relative overflow-hidden bg-brand-dark-2 pb-10 pt-20 sm:pb-12 sm:pt-24 md:pt-28 lg:pt-36"
+      className="relative overflow-hidden bg-brand-cream pb-10 pt-20 sm:pb-12 sm:pt-24 md:pt-28 lg:pt-36"
     >
       <div
         aria-hidden="true"
@@ -66,38 +66,34 @@ export default function TechEcosystem() {
         className="relative z-10 mx-auto max-w-6xl px-6 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-deep" />
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-deep sm:text-sm">
             Tech Ecosystem
           </span>
         </motion.div>
 
         <motion.h2
           variants={itemVariants}
-          className="mt-6 max-w-2xl text-balance text-3xl font-semibold tracking-tight text-brand-offwhite sm:text-4xl lg:text-5xl"
+          className="mt-6 max-w-2xl text-balance text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl lg:text-5xl"
         >
           The Technology Stack Behind Every Build
         </motion.h2>
 
         <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {techEcosystem.map((group) => (
-            <motion.div
-              key={group.category}
-              variants={itemVariants}
-              className="rounded-card bg-brand-surface p-6 ring-1 ring-brand-line sm:p-7"
-            >
-              <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-brand-offwhite">
-                {group.category}
-              </h3>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {group.tools.map((tool) => (
-                  <span
-                    key={tool}
-                    className="rounded-full border border-brand-line px-3 py-1 text-xs font-medium text-brand-slate"
-                  >
-                    {tool}
-                  </span>
-                ))}
+            <motion.div key={group.category} variants={itemVariants} className="flex">
+              <div className="card-brutal flex w-full flex-col p-7 sm:p-8">
+                <h3 className="flex items-center gap-2.5 text-sm font-extrabold uppercase tracking-[0.12em] text-brand-ink">
+                  <span aria-hidden="true" className="h-1 w-6 shrink-0 rounded-full bg-brand-accent" />
+                  {group.category}
+                </h3>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {group.tools.map((tool) => (
+                    <span key={tool} className="tag-brutal text-xs">
+                      {tool}
+                    </span>
+                  ))}
+                </div>
               </div>
             </motion.div>
           ))}

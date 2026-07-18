@@ -15,7 +15,7 @@ export default function TrackScene({ active, reduce }: TrackSceneProps) {
 
   return (
     <div className="w-full max-w-3xl px-1">
-      <p className="ws-item flex items-center justify-center gap-2 text-2xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-xs">
+      <p className="ws-item flex items-center justify-center gap-2 text-2xs font-semibold uppercase tracking-[0.2em] text-brand-accent-deep sm:text-xs">
         <ChartLineUp size={14} aria-hidden="true" />
         {analytics.heading}
         <span className="relative ml-1 flex h-2 w-2">

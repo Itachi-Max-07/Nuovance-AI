@@ -125,13 +125,13 @@ export default function WorkflowStory() {
               return (
                 <li key={storyStep.id}>
                   <div className="mx-auto max-w-2xl text-center">
-                    <p className="text-2xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2">
+                    <p className="text-2xs font-semibold uppercase tracking-[0.2em] text-brand-accent-deep">
                       Step {index + 1} of {STEP_COUNT}
                     </p>
-                    <h3 className="mt-2 text-xl font-semibold text-brand-offwhite sm:text-2xl">
+                    <h3 className="mt-2 text-xl font-bold text-brand-ink sm:text-2xl">
                       {storyStep.title}
                     </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-brand-slate">
+                    <p className="mt-2 text-sm leading-relaxed text-brand-body">
                       {storyStep.description}
                     </p>
                   </div>
@@ -176,13 +176,13 @@ export default function WorkflowStory() {
                 aria-live="polite"
                 className="ws-fade-in mx-auto min-h-16 max-w-2xl text-center"
               >
-                <h3 className="text-lg font-semibold text-brand-offwhite sm:text-xl lg:text-2xl">
-                  <span className="mr-3 font-heading text-brand-accent-2">
+                <h3 className="text-lg font-bold text-brand-ink sm:text-xl lg:text-2xl">
+                  <span className="mr-3 font-heading text-brand-accent-deep">
                     {String(activeStep + 1).padStart(2, "0")}
                   </span>
                   {step.title}
                 </h3>
-                <p className="mt-1.5 text-xs leading-relaxed text-brand-slate sm:text-sm">
+                <p className="mt-1.5 text-xs leading-relaxed text-brand-body sm:text-sm">
                   {step.description}
                 </p>
               </div>

@@ -16,62 +16,68 @@ const PREVIEW_COUNT = 6;
 
 interface CapabilityCardProps {
   group: CapabilityGroup;
+  index: number;
   variants: Variants;
 }
 
-function CapabilityCard({ group, variants }: CapabilityCardProps) {
+function CapabilityCard({ group, index, variants }: CapabilityCardProps) {
   const [expanded, setExpanded] = useState(false);
   const hasOverflow = group.items.length > PREVIEW_COUNT;
   const visibleItems = expanded ? group.items : group.items.slice(0, PREVIEW_COUNT);
-  const remaining = group.items.length - PREVIEW_COUNT;
 
   return (
-    <motion.div
-      variants={variants}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="group relative flex flex-col rounded-card bg-brand-surface p-6 ring-1 ring-brand-line transition-hover duration-300 hover:shadow-glow-sm hover:ring-brand-accent/40 sm:p-7"
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute right-6 top-6 text-brand-accent/25 transition-all duration-700 ease-out group-hover:rotate-90 group-hover:text-brand-accent/50"
-      >
-        <OrbitMotif className="h-6 w-6" />
+    // Framer Motion owns only this entry wrapper; the card below owns its own
+    // CSS hover transform, so the two never fight over `transform`.
+    <motion.div variants={variants} className="flex">
+      <div className="card-brutal flex w-full flex-col p-7 sm:p-8">
+        <span className="font-grotesk text-xs font-bold tracking-[0.2em] text-brand-accent">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+
+        <h3 className="mt-4 flex items-start gap-2.5 font-grotesk text-lg font-bold leading-snug tracking-wide text-brand-ink sm:text-xl">
+          <span aria-hidden="true" className="mt-2.5 h-1 w-6 shrink-0 rounded-full bg-brand-accent" />
+          {group.category}
+        </h3>
+
+        {group.description && (
+          <p className="mt-2 text-sm leading-relaxed text-brand-body">{group.description}</p>
+        )}
+
+        <div aria-hidden="true" className="mt-5 h-0.5 w-full bg-brand-line" />
+
+        <ul className="mt-5 flex flex-col gap-2.5">
+          {visibleItems.map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-2.5 text-sm leading-relaxed text-brand-body"
+            >
+              <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand-accent" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        {hasOverflow && (
+          <div className="mt-auto pt-6">
+            <button
+              type="button"
+              onClick={() => setExpanded((prev) => !prev)}
+              aria-expanded={expanded}
+              className="flex w-full items-center justify-between rounded-xl border-2 border-brand-ink bg-brand-card px-4 py-2.5 font-grotesk text-xs font-bold uppercase tracking-[0.2em] text-brand-ink shadow-brutal-sm transition-press duration-160 ease-spring hover:bg-brand-accent hover:text-brand-paper active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
+            >
+              <span>{expanded ? "Show Less" : "View All"}</span>
+              <span
+                aria-hidden="true"
+                className={`transition-transform duration-200 ease-out-strong ${
+                  expanded ? "-rotate-90" : ""
+                }`}
+              >
+                →
+              </span>
+            </button>
+          </div>
+        )}
       </div>
-
-      <h3 className="pr-8 text-base font-semibold leading-snug text-brand-offwhite sm:text-lg">
-        {group.category}
-      </h3>
-
-      {group.description && (
-        <p className="mt-2 text-sm leading-relaxed text-brand-slate">{group.description}</p>
-      )}
-
-      <ul className="mt-4 flex flex-col gap-2">
-        {visibleItems.map((item) => (
-          <li
-            key={item}
-            className="flex items-start gap-2 text-sm leading-relaxed text-brand-slate"
-          >
-            <span
-              aria-hidden="true"
-              className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand-accent/70 transition-transform duration-300 group-hover:scale-150"
-            />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-
-      {hasOverflow && (
-        <button
-          type="button"
-          onClick={() => setExpanded((prev) => !prev)}
-          aria-expanded={expanded}
-          className="mt-3 self-start text-xs font-semibold uppercase tracking-[0.1em] text-brand-accent-2 transition-colors hover:text-brand-offwhite"
-        >
-          {expanded ? "Show less" : `+${remaining} more`}
-        </button>
-      )}
     </motion.div>
   );
 }
@@ -107,7 +113,7 @@ export default function Capabilities() {
   return (
     <section
       id="capabilities"
-      className="relative overflow-hidden bg-brand-dark-2 py-20 sm:py-24 md:py-28 lg:py-36"
+      className="relative overflow-hidden bg-brand-cream py-20 sm:py-24 md:py-28 lg:py-36"
     >
       <div
         aria-hidden="true"
@@ -131,22 +137,27 @@ export default function Capabilities() {
         className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-deep" />
+          <span className="font-grotesk text-xs font-bold uppercase tracking-[0.2em] text-brand-accent-deep sm:text-sm">
             Capabilities
           </span>
         </motion.div>
 
         <motion.h2
           variants={itemVariants}
-          className="mt-6 max-w-2xl text-balance text-3xl font-semibold tracking-tight text-brand-offwhite sm:text-4xl lg:text-5xl"
+          className="mt-6 max-w-2xl text-balance font-grotesk text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl lg:text-5xl"
         >
           End-to-End Technology Capabilities
         </motion.h2>
 
-        <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-          {capabilities.map((group) => (
-            <CapabilityCard key={group.category} group={group} variants={itemVariants} />
+        <div className="mt-12 grid gap-6 sm:mt-14 sm:grid-cols-2 lg:grid-cols-4">
+          {capabilities.map((group, index) => (
+            <CapabilityCard
+              key={group.category}
+              group={group}
+              index={index}
+              variants={itemVariants}
+            />
           ))}
         </div>
       </motion.div>

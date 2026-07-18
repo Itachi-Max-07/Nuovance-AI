@@ -40,7 +40,7 @@ export default function Closing() {
       };
 
   return (
-    <section className="relative overflow-hidden border-t border-brand-line bg-brand-dark-2 py-16 sm:py-20 md:py-24">
+    <section className="relative overflow-hidden border-t border-brand-line bg-brand-cream py-16 sm:py-20 md:py-24">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -60,21 +60,21 @@ export default function Closing() {
 
         <motion.p
           variants={itemVariants}
-          className="mt-6 text-balance text-2xl font-semibold tracking-tight text-brand-offwhite sm:text-3xl"
+          className="mt-6 text-balance text-2xl font-bold tracking-tight text-brand-ink sm:text-3xl"
         >
           {closing.tagline}
         </motion.p>
 
         <motion.p
           variants={itemVariants}
-          className="mt-4 text-xs font-semibold uppercase tracking-[0.25em] text-brand-accent sm:text-sm"
+          className="mt-4 text-xs font-bold uppercase tracking-[0.25em] text-brand-accent-deep sm:text-sm"
         >
           {closing.motto}
         </motion.p>
 
         <motion.p
           variants={itemVariants}
-          className="mt-6 text-sm leading-relaxed text-brand-slate sm:text-base"
+          className="mt-6 text-sm leading-relaxed text-brand-body sm:text-base"
         >
           {closing.statement}
         </motion.p>

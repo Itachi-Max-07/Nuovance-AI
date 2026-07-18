@@ -42,7 +42,7 @@ export default function WhyChooseUs() {
   return (
     <section
       id="why-us"
-      className="relative overflow-hidden bg-brand-dark-2 pb-20 pt-8 sm:pb-24 sm:pt-10 md:pb-28 lg:pb-36"
+      className="relative overflow-hidden bg-brand-cream pb-20 pt-8 sm:pb-24 sm:pt-10 md:pb-28 lg:pb-36"
     >
       <div
         aria-hidden="true"
@@ -66,35 +66,39 @@ export default function WhyChooseUs() {
         className="relative z-10 mx-auto max-w-6xl px-6 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-deep" />
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-deep sm:text-sm">
             Why Choose Us
           </span>
         </motion.div>
 
         <motion.h2
           variants={itemVariants}
-          className="mt-6 max-w-2xl text-balance text-3xl font-semibold tracking-tight text-brand-offwhite sm:text-4xl lg:text-5xl"
+          className="mt-6 max-w-2xl text-balance text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl lg:text-5xl"
         >
           Why Businesses Choose Nuovance AI
         </motion.h2>
 
         <div className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
-          {whyChooseUs.map((point) => (
-            <motion.div
-              key={point}
-              variants={itemVariants}
-              className="flex items-start gap-3 rounded-card bg-brand-surface p-5 ring-1 ring-brand-line"
-            >
-              <span
-                aria-hidden="true"
-                className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-accent/15"
+          {whyChooseUs.map((point, index) => (
+            // Framer Motion owns only this entry wrapper; .card-brutal owns
+            // the CSS tilt/hover transform, so the two never fight.
+            <motion.div key={point} variants={itemVariants} className="flex">
+              <div
+                className={`card-brutal flex w-full items-start gap-3 p-5 sm:p-6 ${
+                  index % 2 === 0 ? "card-brutal-tilt-l" : "card-brutal-tilt-r"
+                }`}
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-accent" />
-              </span>
-              <span className="text-sm font-medium leading-snug text-brand-offwhite">
-                {point}
-              </span>
+                <span
+                  aria-hidden="true"
+                  className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-accent/15"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-brand-accent" />
+                </span>
+                <span className="text-sm font-medium leading-snug text-brand-ink">
+                  {point}
+                </span>
+              </div>
             </motion.div>
           ))}
         </div>

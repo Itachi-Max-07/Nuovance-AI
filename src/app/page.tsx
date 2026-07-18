@@ -17,19 +17,24 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <About />
-      <WorkflowStory />
-      <VisionMission />
-      <Capabilities />
-      <Experience />
-      <BusinessOutcomes />
-      <Industries />
-      <Methodology />
-      <Leadership />
-      <TechEcosystem />
-      <WhyChooseUs />
-      <Contact />
-      <Closing />
+      {/* Dark Soft Brutalism scope: re-points the brand tokens (globals.css)
+          at the charcoal-black system for every section below the Hero. The
+          Hero above reads the untouched :root values. */}
+      <div className="theme-dark bg-brand-paper">
+        <About />
+        <WorkflowStory />
+        <VisionMission />
+        <Capabilities />
+        <Experience />
+        <BusinessOutcomes />
+        <Industries />
+        <Methodology />
+        <Leadership />
+        <TechEcosystem />
+        <WhyChooseUs />
+        <Contact />
+        <Closing />
+      </div>
     </>
   );
 }

@@ -21,12 +21,12 @@ type NativeButtonProps = CommonProps &
 
 type ButtonProps = LinkProps | NativeButtonProps;
 
-const baseStyles =
-  "inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium tracking-wide transition-press duration-160 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-97 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent";
-
+// Chunky soft-brutal button: thick ink border, hard offset shadow, spring
+// lift on hover, physical compress on click. All styling lives in the shared
+// .btn-brutal classes (globals.css) so every CTA on the site presses alike.
 const variantStyles: Record<Variant, string> = {
-  primary: "bg-brand-accent text-white shadow-glow-sm hover:shadow-glow",
-  outline: "border border-white/15 hover:bg-brand-surface",
+  primary: "btn-brutal btn-brutal-primary",
+  outline: "btn-brutal btn-brutal-outline",
 };
 
 export default function Button({
@@ -36,7 +36,7 @@ export default function Button({
   href,
   ...props
 }: ButtonProps) {
-  const classes = `${baseStyles} ${variantStyles[variant]} ${className}`;
+  const classes = `${variantStyles[variant]} ${className}`;
 
   if (href) {
     return (

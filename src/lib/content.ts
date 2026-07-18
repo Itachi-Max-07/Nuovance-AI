@@ -26,12 +26,16 @@ export interface TeamMember {
   name: string;
   role: string;
   responsibilities: string;
+  /** Headshot under /public/images/. Omit to fall back to an initials avatar. */
+  photo?: { src: string; alt: string };
 }
 
 export interface TechGroup {
   category: string;
   tools: string[];
 }
+
+export type SocialPlatform = { name: string; url: string };
 
 /* ---------- Workflow Story (scroll-driven case study) ---------- */
 
@@ -72,7 +76,7 @@ export interface StoryMapPin {
 /* ---------- Booking URL (single source of truth for all CTAs) ---------- */
 // TODO: replace with your real Cal.com or Calendly link, e.g.
 // "https://cal.com/nuovance-ai/strategy-call"
-const BOOKING_URL = "BOOKING_URL_PLACEHOLDER";
+const BOOKING_URL = "https://calendly.com/mdmasher07/30min";
 const BOOKING_CTA_LABEL = "Book a Meeting";
 
 // Falls back to the in-page contact section until a real booking link is set.
@@ -106,7 +110,7 @@ export const hero = {
     "Website Design & Development",
     "Digital Transformation",
   ],
-  primaryCta: { label: "Schedule a Strategy Consultation", href: bookingHref },
+  primaryCta: { label: "Schedule a Strategy Consultation", href: "https://calendly.com/mdmasher07/30min" },
   secondaryCta: { label: "Request a Custom AI Solution", href: "#contact" },
   website: "www.NuovanceAI.com",
 };
@@ -418,7 +422,7 @@ export const workflowStory = {
     attendee: "Noah Meyer",
     opportunity: "Opportunity created in CRM",
     dealValueLabel: "Est. deal value",
-    dealValue: "€24,000",
+    dealValue: "€28,000",
   },
   summary: {
     heading: "Pipeline results",
@@ -620,8 +624,8 @@ export const experience = {
   ],
   stats: [
     { value: "2+", label: "Years of Professional Experience" },
-    { value: "XX+", label: "Projects & Workflows Delivered" }, // TODO
-    { value: "XX+", label: "Clients Served" }, // TODO
+    { value: "200+", label: "Projects & Workflows Delivered" }, 
+    { value: "30+", label: "Clients Served" }, 
     { value: "12+", label: "Industries Supported" },
   ] as StatItem[],
   projects: [
@@ -638,7 +642,6 @@ export const experience = {
         // TODO: add a real metric if available, e.g. "X videos/month delivered"
       ],
       stack: ["Google Veo", "AI Video Workflows", "ffmpeg", "Content Automation"],
-      image: "/images/work/ugc-video.png",
       video: "/videos/ugc-demo.mp4",
       link: "",
     },
@@ -654,7 +657,6 @@ export const experience = {
         // TODO: name the specific process + a metric if the client allows
       ],
       stack: ["n8n", "API Integrations", "Workflow Automation"],
-      image: "/images/work/n8n-automation.png",
       video: "/videos/intelligent-automation.mp4",
       link: "",
     },
@@ -715,31 +717,43 @@ export const leadership: TeamMember[] = [
     role: "Founder & Chief Executive Officer (CEO)",
     responsibilities:
       "Responsible for company vision, strategic planning, business development, partnerships, client success, and organizational growth.",
+    photo: { src: "/images/shahid-malik.jpeg", alt: "Shahid Malik, Founder & CEO of Nuovance AI" },
   },
   {
     name: "Mahshar Raza",
     role: "Co-Founder & Chief Technology Officer (CTO)",
     responsibilities:
       "Leads software engineering, AI architecture, automation development, technical operations, and product innovation.",
+    photo: { src: "/images/masher-raza.png", alt: "Mahshar Raza, Co-Founder & CTO of Nuovance AI" },
   },
   {
     name: "Mehar Afreen",
     role: "Head of Content & Creative Strategy",
     responsibilities:
       "Responsible for creative direction, content strategy, brand storytelling, campaign planning, copywriting, and marketing communications.",
+    photo: { src: "/images/mehar-afreen.png", alt: "Mehar Afreen, Head of Content & Creative Strategy at Nuovance AI" },
   },
   {
     name: "Md Reza",
     role: "Social Media Platform Manager",
     responsibilities:
       "Leads social media strategy, content publishing, audience engagement, analytics, and digital brand growth.",
+    photo: { src: "/images/md-reza.png", alt: "Md Reza, Social Media Platform Manager at Nuovance AI" },
   },
   {
     name: "Shanawaz Haq",
     role: "Content Production & Distribution Specialist",
     responsibilities:
       "Creates high-quality digital content, prepares marketing assets, coordinates publishing workflows, and manages content distribution across multiple platforms.",
+    photo: { src: "/images/shanawaz-haq.png", alt: "Shanawaz Haq, Content Production & Distribution Specialist at Nuovance AI" },
   },
+  {
+    name: "Ayez Saif",
+    role: "Automation & Integration Expert",
+    responsibilities:
+      "Design and implement workflow automations using platforms like n8n, Make, Zapier, Power Automate, or Workato.",
+    photo: { src: "/images/ayez-saif.png", alt: "Ayez Saif, Automation & Integration Expert at Nuovance AI" },
+  }
 ];
 
 /* ---------- Technology Ecosystem ---------- */
@@ -747,7 +761,7 @@ export const leadership: TeamMember[] = [
 export const techEcosystem: TechGroup[] = [
   {
     category: "Artificial Intelligence",
-    tools: ["OpenAI", "Anthropic Claude", "Google Gemini", "DeepSeek"],
+    tools: ["OpenAI", "Anthropic Claude", "Google Gemini", "DeepSeek","Grok"],
   },
   { category: "Automation", tools: ["n8n", "Make"] },
   {
@@ -795,18 +809,17 @@ export const contact = {
   headline: "Let's Build the Future Together",
   intro:
     "Whether you're looking to automate business operations, launch a SaaS product, develop enterprise software, or build a modern digital platform, Nuovance AI is ready to become your trusted technology partner.",
-  website: "www.NuovanceAI.com",
-  bookingUrl: BOOKING_URL,
+  website: "www.nuovanceai.com",
+  bookingUrl: "https://calendly.com/mdmasher07/30min",
   bookingCtaLabel: BOOKING_CTA_LABEL,
   emails: {
-    general: "hello@NuovanceAI.com",
-    sales: "sales@NuovanceAI.com",
-    support: "support@NuovanceAI.com",
-    partnerships: "partners@NuovanceAI.com",
-    careers: "careers@NuovanceAI.com",
+    sales: "sales@nuovanceai.com",
+    support: "support@nuovanceai.com",
   },
-  phone: "+91 9304666904", // TODO
-  whatsapp: "+91 9304666904", // TODO
+  phone: "+91 9304666904",
+  whatsapp: "+91 9304666904",
+  whatsappMessage:
+    "Hi Nuovance AI! I'd like to request a custom AI solution for my business.",
   office: "India",
   businessHours: [
     "Monday – Friday: 9:00 AM – 6:00 PM (IST)",
@@ -814,7 +827,14 @@ export const contact = {
   ],
   social: {
     handle: "@NuovanceAI",
-    platforms: ["LinkedIn", "Facebook", "Instagram", "X", "YouTube", "GitHub"],
+    platforms: [
+      { name: "LinkedIn", url: "https://www.linkedin.com/company/nuovanceai" },
+      { name: "Facebook", url: "https://www.facebook.com/share/1CsEHVyqjW/" },
+      { name: "Instagram", url: "https://www.instagram.com/nuovanceai" },
+      { name: "X", url: "https://x.com/NuovanceAI" },
+      { name: "YouTube", url: "https://www.youtube.com/@NuovanceAI" },
+      { name: "GitHub", url: "https://github.com/NuovanceAI" },
+    ] as SocialPlatform[],
   },
 };
 

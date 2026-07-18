@@ -42,7 +42,7 @@ export default function VisionMission() {
   return (
     <section
       id="vision-mission"
-      className="relative overflow-hidden bg-brand-dark py-20 sm:py-24 md:py-28 lg:py-36"
+      className="relative overflow-hidden bg-brand-paper py-20 sm:py-24 md:py-28 lg:py-36"
     >
       <div
         aria-hidden="true"
@@ -66,48 +66,48 @@ export default function VisionMission() {
         className="relative z-10 mx-auto max-w-5xl px-6 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-deep" />
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-deep sm:text-sm">
             Vision &amp; Mission
           </span>
         </motion.div>
 
         <div className="mt-6 grid gap-5 sm:mt-8 sm:grid-cols-2 sm:gap-6 lg:gap-8">
-          <motion.div
-            variants={itemVariants}
-            className="rounded-card bg-brand-surface p-6 ring-1 ring-brand-line sm:p-8"
-          >
-            <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-brand-offwhite">
-              Vision
-            </h3>
-            <p className="mt-4 text-base leading-relaxed text-brand-slate sm:text-lg">
-              {visionMission.vision}
-            </p>
+          <motion.div variants={itemVariants} className="flex">
+            <div className="card-brutal flex w-full flex-col p-7 sm:p-8">
+              <h3 className="flex items-center gap-2.5 text-sm font-extrabold uppercase tracking-[0.18em] text-brand-ink">
+                <span aria-hidden="true" className="h-1 w-6 rounded-full bg-brand-accent" />
+                Vision
+              </h3>
+              <p className="mt-4 text-base leading-relaxed text-brand-body sm:text-lg">
+                {visionMission.vision}
+              </p>
+            </div>
           </motion.div>
 
-          <motion.div
-            variants={itemVariants}
-            className="rounded-card bg-brand-surface p-6 ring-1 ring-brand-line sm:p-8"
-          >
-            <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-brand-offwhite">
-              Mission
-            </h3>
-            <p className="mt-4 text-base leading-relaxed text-brand-slate sm:text-lg">
-              {visionMission.mission}
-            </p>
+          <motion.div variants={itemVariants} className="flex">
+            <div className="card-brutal flex w-full flex-col p-7 sm:p-8">
+              <h3 className="flex items-center gap-2.5 text-sm font-extrabold uppercase tracking-[0.18em] text-brand-ink">
+                <span aria-hidden="true" className="h-1 w-6 rounded-full bg-brand-accent" />
+                Mission
+              </h3>
+              <p className="mt-4 text-base leading-relaxed text-brand-body sm:text-lg">
+                {visionMission.mission}
+              </p>
+            </div>
           </motion.div>
         </div>
 
         <motion.p
           variants={itemVariants}
-          className="mx-auto mt-14 max-w-2xl text-balance text-center font-heading text-xl font-semibold leading-snug text-brand-offwhite sm:mt-20 sm:text-2xl lg:text-3xl"
+          className="mx-auto mt-14 max-w-2xl text-balance text-center font-heading text-xl font-bold leading-snug text-brand-ink sm:mt-20 sm:text-2xl lg:text-3xl"
         >
           &ldquo;{visionMission.brandPromise}&rdquo;
         </motion.p>
 
         <motion.p
           variants={itemVariants}
-          className="mx-auto mt-6 max-w-2xl text-center text-sm leading-relaxed text-brand-slate sm:mt-8 sm:text-base"
+          className="mx-auto mt-6 max-w-2xl text-center text-sm leading-relaxed text-brand-body sm:mt-8 sm:text-base"
         >
           {philosophy.statement}
         </motion.p>
@@ -119,11 +119,11 @@ export default function VisionMission() {
           {philosophy.principles.map((principle, index) => (
             <li
               key={principle.title}
-              className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-brand-slate"
+              className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-brand-body"
             >
               <span>{principle.title}</span>
               {index < philosophy.principles.length - 1 && (
-                <span aria-hidden="true" className="text-brand-muted/50">
+                <span aria-hidden="true" className="text-brand-faint/50">
                   ·
                 </span>
               )}

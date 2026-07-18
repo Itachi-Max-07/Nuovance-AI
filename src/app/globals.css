@@ -3,44 +3,90 @@
 @tailwind utilities;
 
 :root {
-  /* RGB channel triples (not hex) so Tailwind's bg-brand-dark/80 style
+  /* RGB channel triples (not hex) so Tailwind's bg-brand-paper/80 style
      opacity modifiers can inject an alpha channel via rgb(var(...) / a).
-     Dark-luxury palette: near-black backgrounds, matte surfaces, indigo
-     accent. */
-  --color-dark: 5 5 5; /* #050505 — primary background */
-  --color-dark-2: 9 9 9; /* #090909 — alternate section background */
-  --color-surface: 17 17 17; /* #111111 — cards, matte panels */
-  --color-surface-2: 21 21 21; /* #151515 — raised surfaces */
-  --color-accent: 91 91 255; /* #5B5BFF — primary accent */
-  --color-accent-2: 124 108 255; /* #7C6CFF — secondary accent */
-  --color-offwhite: 245 245 245; /* #F5F5F5 — primary text */
-  --color-slate: 184 184 184; /* #B8B8B8 — secondary text */
-  --color-muted: 122 122 122; /* #7A7A7A — muted text */
+     Soft Brutalism palette (July 2026 redesign): warm off-white paper,
+     soft beige, flat white cards, charcoal ink borders/typography, and a
+     single cobalt accent used only for primary actions and highlights. */
+  --color-paper: 247 246 243; /* #F7F6F3 — primary background */
+  --color-cream: 242 239 233; /* #F2EFE9 — alternate sections, wells */
+  --color-card: 255 255 255; /* #FFFFFF — flat card faces */
+  --color-ink: 28 28 28; /* #1C1C1C — charcoal borders, headings, shadows */
+  --color-body: 71 71 66; /* #474742 — secondary/body text */
+  --color-faint: 101 101 94; /* #65655E — muted labels (AA on cream) */
+  --color-accent: 37 99 235; /* #2563EB — cobalt, THE accent */
+  --color-accent-deep: 29 78 216; /* #1D4ED8 — accent as text on light */
+  --color-green: 4 120 87; /* #047857 — success/live states */
+  --color-violet: 109 40 217; /* #6D28D9 — "AI working" status */
+  --color-purple: 124 58 237; /* #7C3AED — premium purple (dark-theme hover) */
+  --color-line: 28 28 28; /* hairline divider base (charcoal on light) */
+  --shadow-hard: 28 28 28; /* hard offset-shadow color (charcoal on light) */
 
-  /* Soft Brutalism card system (July 2026): hard offset shadows, thick
-     borders, tactile lift-on-hover. Blue is intentionally saturated —
-     it only ever appears as shadow/border/accent, never as large fills. */
-  --color-dark-3: 15 15 15; /* #0F0F0F — tag/pill wells inside cards */
-  --color-blue: 37 99 235; /* #2563EB — brutalist accent */
-  --color-green: 52 211 153; /* #34D399 — success/qualified states on dark */
+  /* Component geometry + shadow recipes. The light system is rounded and
+     physically shadowed (hard offset + soft ambient falloff); .theme-dark
+     re-points these at sharp corners and flat pure-black offsets. The shared
+     component classes below consume the variables — never raw values. */
+  --radius-card: 24px; /* .card-brutal */
+  --radius-panel: 20px; /* .ws-card */
+  --radius-control: 999px; /* buttons + tags (pills on light) */
+  --border-card: 3px;
+  --border-control: 3px;
+  --shadow-brutal:
+    6px 6px 0 0 rgb(var(--shadow-hard)),
+    0 24px 40px -24px rgb(var(--shadow-hard) / 0.28);
+  --shadow-brutal-sm: 3px 3px 0 0 rgb(var(--shadow-hard));
+  --shadow-brutal-lg:
+    10px 10px 0 0 rgb(var(--shadow-hard)),
+    0 32px 56px -28px rgb(var(--shadow-hard) / 0.32);
+  --shadow-brutal-press:
+    2px 2px 0 0 rgb(var(--shadow-hard)),
+    0 12px 20px -16px rgb(var(--shadow-hard) / 0.25);
+  --shadow-panel:
+    5px 5px 0 0 rgb(var(--shadow-hard)),
+    0 20px 32px -22px rgb(var(--shadow-hard) / 0.28);
+}
 
-  /* Light hero palette (Weave-style editorial hero). Scoped by usage: only
-     the hero section and its workflow canvas consume these. */
-  --hero-bg: 250 250 250; /* #FAFAFA — glossy white base */
-  --hero-surface: 255 255 255; /* #FFFFFF — frosted glass cards */
-  --hero-ink: 17 24 39; /* #111827 — primary dark typography */
-  --hero-body: 107 114 128; /* #6B7280 — secondary text */
-  --hero-line: 229 231 235; /* #E5E7EB — thin subtle borders */
-  --hero-accent: 59 130 246; /* #3B82F6 — connection lines, particles */
-  --hero-cyan: 8 145 178; /* #0891B2 — soft cyan accent (AA on white) */
-  --hero-green: 5 150 105; /* #059669 — live/success status */
-  --hero-violet: 124 58 237; /* #7C3AED — AI processing status */
+/* ==== All-Black Soft Brutalism scope (July 2026) ====
+   Everything BELOW the Hero is wrapped in .theme-dark (page.tsx, Navbar,
+   Footer), which re-points the same brand tokens at a near-black system.
+   Only the Hero reads the :root values and is untouched. Flat #0A0A0A
+   surfaces, off-white type, sharp 4px corners, thick #333 borders, one
+   muted steel-blue accent, and hard pure-black offset shadows — no
+   gradients, no glass, no glows. */
+.theme-dark {
+  --color-paper: 10 10 10; /* #0A0A0A — page base */
+  --color-cream: 17 17 17; /* #111111 — alternate sections, wells */
+  --color-card: 20 20 20; /* #141414 — matte card faces, one step up */
+  --color-ink: 234 234 234; /* #EAEAEA — headings, strong text */
+  --color-body: 176 176 176; /* #B0B0B0 — body/secondary text (7.9:1 AA) */
+  --color-faint: 138 138 138; /* #8A8A8A — muted labels (5.6:1 AA) */
+  --color-accent: 94 129 172; /* #5E81AC — muted steel blue, THE accent */
+  --color-accent-deep: 129 161 193; /* #81A1C1 — accent as TEXT on black */
+  --color-green: 163 190 140; /* #A3BE8C — muted sage success/live */
+  --color-violet: 180 142 173; /* #B48EAD — muted mauve "AI working" */
+  --color-purple: 180 142 173; /* folded into the mauve — one accent max */
+  --color-line: 234 234 234; /* light hairlines inside dark cards */
+  --shadow-hard: 0 0 0; /* pure-black hard offsets */
+  /* Surface borders: thick and visible against #0A0A0A without shouting. */
+  --color-border-soft: 51 51 51; /* #333333 — card/tag/button/nav borders */
+  --color-border-strong: 74 74 74; /* #4A4A4A — hover border shift */
+  /* Brutalist geometry: sharp corners, 2px borders, flat hard shadows. */
+  --radius-card: 4px;
+  --radius-panel: 4px;
+  --radius-control: 4px;
+  --border-card: 2px;
+  --border-control: 2px;
+  --shadow-brutal: 4px 4px 0 0 rgb(var(--shadow-hard));
+  --shadow-brutal-lg: 6px 6px 0 0 rgb(var(--shadow-hard));
+  --shadow-brutal-press: 2px 2px 0 0 rgb(var(--shadow-hard));
+  --shadow-panel: 4px 4px 0 0 rgb(var(--shadow-hard));
 }
 
 html {
   scroll-behavior: smooth;
-  /* Offsets in-page anchor jumps so section headings clear the sticky Navbar. */
-  scroll-padding-top: 4.5rem;
+  /* Offsets in-page anchor jumps so section headings clear the floating
+     pill Navbar (top gap + pill height + breathing room). */
+  scroll-padding-top: 6rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -50,8 +96,8 @@ html {
 }
 
 body {
-  background: rgb(var(--color-dark));
-  color: rgb(var(--color-offwhite));
+  background: rgb(var(--color-paper));
+  color: rgb(var(--color-ink));
   /* Never allow stray overflow to widen the page — `clip` (unlike `hidden`)
      forbids sideways scrolling entirely and keeps the sticky Navbar working. */
   overflow-x: clip;
@@ -66,53 +112,63 @@ body {
   h6 {
     @apply font-heading;
   }
+
+  /* Dark scope typography: heavy, confident headings are the defining Soft
+     Brutalism trait. :where() keeps specificity at one class so explicit
+     weight utilities on a heading still win where a section needs them. */
+  .theme-dark :where(h1, h2, h3, h4, h5, h6) {
+    font-weight: 700;
+  }
 }
 
 @layer components {
   /* ---- Soft Brutalism card system ----
-     One shared class so every card on the site stays identical. CSS owns the
-     hover transform; Framer Motion must only ever animate an entry WRAPPER
-     around .card-brutal, never the card element itself, or the two fight
-     over `transform` (same contract as the old brutalist capability cards). */
+     One shared class so every card on the site feels like the same physical
+     object: flat white face, thick charcoal border, big radius, and a layered
+     shadow (hard charcoal offset for the "stacked paper" read + a soft
+     ambient falloff for physical depth). CSS owns the hover/press transform;
+     Framer Motion must only ever animate an entry WRAPPER around
+     .card-brutal, never the card element itself, or the two fight over
+     `transform`. */
   .card-brutal {
     position: relative;
     overflow: hidden;
-    border-radius: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.12);
-    background: rgb(var(--color-surface-2));
-    box-shadow: 8px 8px 0 0 rgb(var(--color-blue) / 0.9);
+    border-radius: var(--radius-card);
+    border: var(--border-card) solid rgb(var(--color-ink));
+    background: rgb(var(--color-card));
+    box-shadow: var(--shadow-brutal);
     transition:
-      transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      box-shadow 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      border-color 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 250ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      border-color 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .card-brutal:hover {
-    cursor: pointer;
     /* Lifted card (and its grown shadow) must paint above grid neighbors. */
     z-index: 10;
-    border-color: rgb(var(--color-blue));
-    /* Hard offset block + a soft glow so the lift reads as light, not blur. */
-    box-shadow:
-      14px 14px 0 0 rgb(var(--color-blue)),
-      0 0 32px 0 rgb(var(--color-blue) / 0.35);
+    box-shadow: var(--shadow-brutal-lg);
   }
 
-  /* Small blue indicator dot pinned to every card's top-right corner. */
+  /* Pressing a card compresses it back onto the page — tactile, physical. */
+  .card-brutal:active {
+    box-shadow: var(--shadow-brutal-press);
+  }
+
+  /* Small cobalt indicator dot pinned to every card's top-right corner. */
   .card-brutal::after {
     content: "";
     position: absolute;
-    top: 14px;
-    right: 14px;
-    height: 7px;
-    width: 7px;
+    top: 16px;
+    right: 16px;
+    height: 8px;
+    width: 8px;
     border-radius: 999px;
-    background: rgb(var(--color-blue));
-    opacity: 0.55;
+    background: rgb(var(--color-accent));
+    opacity: 0.6;
     pointer-events: none;
     transition:
-      opacity 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      opacity 250ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .card-brutal:hover::after {
@@ -120,48 +176,173 @@ body {
     transform: scale(1.35);
   }
 
-  /* Geometric corner bracket hugging the bottom-left of the card. */
-  .card-brutal::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 22px;
-    width: 22px;
-    border-bottom-left-radius: 14px;
-    border-bottom: 2px solid rgb(var(--color-blue) / 0.4);
-    border-left: 2px solid rgb(var(--color-blue) / 0.4);
-    pointer-events: none;
-    transition: border-color 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .card-brutal:hover::before {
-    border-color: rgb(var(--color-blue) / 0.9);
-  }
-
   /* ---- Soft Brutalism tag / pill system (tech chips, industries, socials) ---- */
   .tag-brutal {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
-    border-radius: 999px;
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    background: rgb(var(--color-dark-3));
+    border-radius: var(--radius-control);
+    border: 2px solid rgb(var(--color-ink));
+    background: rgb(var(--color-card));
     padding: 10px 18px;
     font-weight: 700;
-    color: rgb(var(--color-slate));
+    color: rgb(var(--color-ink));
+    box-shadow: var(--shadow-brutal-sm);
     transition:
-      background-color 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      border-color 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      color 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      background-color 250ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      color 250ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 250ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .tag-brutal:hover {
-    cursor: pointer;
-    background: rgb(var(--color-blue));
-    border-color: rgb(var(--color-blue));
+    background: rgb(var(--color-accent));
     color: #ffffff;
+    box-shadow: 4px 4px 0 0 rgb(var(--shadow-hard));
+  }
+
+  /* ---- Soft Brutalism buttons: chunky, bold, spring-loaded ----
+     Shared by <Button>, the hero CTAs, and the Navbar so every action on the
+     site presses the same way. Hover lifts off the page; click compresses
+     into it (shadow collapses as the button "lands"). */
+  .btn-brutal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-control);
+    border: var(--border-control) solid rgb(var(--color-ink));
+    padding: 0.8125rem 1.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    box-shadow: 4px 4px 0 0 rgb(var(--shadow-hard));
+    transition:
+      transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      background-color 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      color 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .btn-brutal:hover {
+    box-shadow: 6px 6px 0 0 rgb(var(--shadow-hard));
+  }
+
+  .btn-brutal:active {
+    box-shadow: 1px 1px 0 0 rgb(var(--shadow-hard));
+  }
+
+  .btn-brutal:focus-visible {
+    outline: 3px solid rgb(var(--color-accent));
+    outline-offset: 3px;
+  }
+
+  .btn-brutal-primary {
+    background: rgb(var(--color-accent));
+    color: #ffffff;
+  }
+
+  .btn-brutal-primary:hover {
+    background: rgb(var(--color-accent-deep));
+  }
+
+  .btn-brutal-outline {
+    background: rgb(var(--color-card));
+    color: rgb(var(--color-ink));
+  }
+
+  .btn-brutal-outline:hover {
+    background: rgb(var(--color-cream));
+  }
+
+  /* ---- Dark-scope surface treatments ----
+     All-black brutalism: every surface — cards, panels, tags, buttons —
+     wears the same thick #333 border so edges are visible against #0A0A0A
+     without screaming off-white. Hover feedback is a border/background
+     shift only; depth stays flat hard offsets, never a glow. */
+  .theme-dark .card-brutal,
+  .theme-dark .ws-card,
+  .theme-dark .tag-brutal,
+  .theme-dark .btn-brutal {
+    border-color: rgb(var(--color-border-soft));
+  }
+
+  /* Hover lightens the border one step — the brutalist "lit edge". */
+  .theme-dark .card-brutal:hover,
+  .theme-dark .tag-brutal:hover,
+  .theme-dark .btn-brutal:hover {
+    border-color: rgb(var(--color-border-strong));
+  }
+
+  /* The corner indicator squares off — a round dot reads soft-light. */
+  .theme-dark .card-brutal::after {
+    border-radius: 0;
+  }
+
+  /* Accent-filled hover states carry near-black text: #0A0A0A on the muted
+     steel blue is 4.9:1 (AA); white would wash out on it. */
+  .theme-dark .tag-brutal:hover {
+    color: rgb(var(--color-paper));
+  }
+
+  /* Primary CTA: muted steel-blue fill, near-black text; hovering shifts one
+     step lighter within the same hue — background shift, no glow. */
+  .theme-dark .btn-brutal-primary {
+    color: rgb(var(--color-paper));
+  }
+
+  .theme-dark .btn-brutal-primary:hover {
+    background: rgb(var(--color-accent-deep));
+  }
+
+  /* Secondary: matte black face; hovering fills it with the accent. */
+  .theme-dark .btn-brutal-outline:hover {
+    background: rgb(var(--color-accent));
+    color: rgb(var(--color-paper));
+  }
+
+  /* The workflow story's light-scope seam gradient flattens to a solid
+     well — no gradients anywhere in the black system. */
+  .theme-dark .ws-section-bg {
+    background: rgb(var(--color-cream));
+  }
+
+  /* Sharp edges for Tailwind-rounded inner surfaces (wells, toggles) so no
+     stray soft corner survives inside the black scope. Circles
+     (rounded-full) stay: dots, pulse rings, and icon chips are geometric
+     primitives, not soft surfaces. */
+  .theme-dark
+    :is(.rounded, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl) {
+    border-radius: 4px;
+  }
+
+  /* ---- Text-link underline reveal (dark sections) ----
+     Bottom border sweeps in from the left on hover; color utilities on the
+     element handle the Electric Blue shift. */
+  .link-reveal {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 calc(100% - 0.05em);
+    background-size: 0% 2px;
+    transition:
+      background-size 250ms cubic-bezier(0.23, 1, 0.32, 1),
+      color 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .link-reveal:hover {
+    background-size: 100% 2px;
+  }
+
+  /* ---- Flat black floating nav bar ----
+     A solid near-black slab: sharp corners, thick visible border, hard
+     offset shadow. No blur, no sheen, no gradient — the brutalist
+     counterpart of the old gloss pill. Lives on the Navbar only, which is
+     always inside .theme-dark, so the tokens resolve to the black system. */
+  .nav-gloss {
+    border-radius: var(--radius-card);
+    border: 2px solid rgb(var(--color-border-soft, 51 51 51));
+    background: rgb(var(--color-paper));
+    box-shadow: 4px 4px 0 0 rgb(var(--shadow-hard));
   }
 }
 
@@ -169,7 +350,11 @@ body {
    gated behind reduced-motion; colors/shadows still respond without it. */
 @media (prefers-reduced-motion: no-preference) {
   .card-brutal:hover {
-    transform: translate(-6px, -6px) scale(1.02);
+    transform: translate(-4px, -4px);
+  }
+
+  .card-brutal:active {
+    transform: translate(2px, 2px) scale(0.99);
   }
 
   /* Alternating resting tilt (Why Choose Us) that straightens on hover. */
@@ -183,7 +368,15 @@ body {
 
   .card-brutal-tilt-l:hover,
   .card-brutal-tilt-r:hover {
-    transform: translate(-6px, -6px) scale(1.02) rotate(0deg);
+    transform: translate(-4px, -4px) rotate(0deg);
+  }
+
+  .btn-brutal:hover {
+    transform: translate(-2px, -2px);
+  }
+
+  .btn-brutal:active {
+    transform: translate(2px, 2px) scale(0.98);
   }
 
   /* Deterministic "random" tilt per pill: -2° … 2° depending on position. */
@@ -202,6 +395,27 @@ body {
   .tag-brutal:nth-child(5n):hover {
     transform: scale(1.05) rotate(-1deg);
   }
+
+  .tag-brutal:active {
+    transform: scale(0.97);
+  }
+
+  /* Dark scope: the flat shadows only grow 4px→6px on hover, so the lift
+     shrinks to match — the card must stay attached to its shadow. */
+  .theme-dark .card-brutal:hover,
+  .theme-dark .card-brutal-tilt-l:hover,
+  .theme-dark .card-brutal-tilt-r:hover {
+    transform: translate(-2px, -2px);
+  }
+}
+
+/* Dark scope: section headlines go full black-weight with a tight, stacked
+   line — the chunky Soft Brutalism silhouette. Unlayered on purpose so it
+   outranks the per-section `font-bold` utilities. */
+.theme-dark h1,
+.theme-dark h2 {
+  font-weight: 800;
+  line-height: 1.1;
 }
 
 @layer utilities {
@@ -209,26 +423,102 @@ body {
     text-wrap: balance;
   }
 
-  /* 3D stage + orbit spin for the brand motif. CSS animation (not JS) so it
-     runs off the main thread; transform-only for hardware acceleration. */
-  .orbit-3d-stage {
-    perspective: 800px;
+  /* ---- Brand identity logo card (About). The Framer wrapper plays the
+     one-shot reveal; everything below is CSS so the continuous motion runs off
+     the main thread. Every rule animates transform/opacity only, hints
+     will-change, and is disabled under reduced motion (bottom of file) while
+     the logo, aura and orbit stay fully visible. No layout properties move. */
+
+  /* Whole composition (aura + orbit + logo) nudged up so it reads as optically
+     centered in the square card. Static transform, so it just shifts the group
+     without touching layout. */
+  .logo-composition {
+    transform: translate3d(0, -14px, 0);
   }
 
-  .orbit-3d {
-    transform-style: preserve-3d;
-    animation: orbit-3d-spin 10s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  /* Soft radial aura behind the logo: a faint accent tint that fades to fully
+     transparent, so it melts into the card with no square edge, no blur and no
+     glow. The ::before breathes via opacity; the element's own opacity is the
+     hover multiplier, keeping hover a smooth 300ms transition. */
+  .logo-aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    height: 72%;
+    width: 72%;
+    transform: translate3d(-50%, -50%, 0);
+    opacity: 0.8;
+    transition: opacity 300ms ease-out;
+    pointer-events: none;
   }
 
-  /* ---- Light hero decorative layers. Static backgrounds: painted once,
-     no per-frame cost. All motion below animates transform/opacity only. ---- */
+  .logo-aura::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at center,
+      rgb(var(--color-accent) / 0.12) 0%,
+      rgb(var(--color-accent) / 0.05) 45%,
+      transparent 72%
+    );
+    will-change: opacity;
+    animation: logo-aura-breathe 3s ease-in-out infinite;
+  }
 
-  /* Extremely subtle dotted grid, fading out toward the edges. */
+  /* Outer orbit ring: one slow rotation / 20s, linear (rotate3d = own GPU
+     layer). Thin and light (40% stroke), so it frames rather than overpowers. */
+  .logo-orbit-ring {
+    transform-origin: 50% 50%;
+    will-change: transform;
+    animation: logo-ring-spin 20s linear infinite;
+  }
+
+  /* Orbiting dot: one perfectly circular orbit / 8s, linear — rotated about the
+     same center as the ring, so its path is a true circle. A tiny grounding
+     drop-shadow (not a glow) lifts it off the ring plane for subtle depth. */
+  .logo-orbit-dot {
+    transform-origin: 50% 50%;
+    filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.5));
+    will-change: transform;
+    animation: logo-dot-orbit 8s linear infinite;
+  }
+
+  /* Logo idle float: 0 -> -4px. The hover scale lives on .logo-mark so the two
+     never share a transform target. */
+  .logo-float {
+    will-change: transform;
+    animation: logo-float 3.5s ease-in-out infinite;
+  }
+
+  .logo-mark {
+    transition: transform 300ms ease-out;
+    will-change: transform;
+  }
+
+  /* Hover: faster ring, lifted logo, brighter aura — all settle over 300ms
+     and return smoothly on leave. */
+  .logo-stage:hover .logo-orbit-ring {
+    animation-duration: 6s;
+  }
+
+  .logo-stage:hover .logo-mark {
+    transform: scale(1.05);
+  }
+
+  .logo-stage:hover .logo-aura {
+    opacity: 1;
+  }
+
+  /* ---- Hero decorative layers: flat, geometric, painted once. ---- */
+
+  /* Subtle charcoal dotted grid, fading out toward the edges — graph paper. */
   .hero-dots {
     background-image: radial-gradient(
       circle,
-      rgb(var(--hero-ink) / 0.05) 1px,
-      transparent 1px
+      rgb(var(--color-ink) / 0.07) 1.5px,
+      transparent 1.5px
     );
     background-size: 28px 28px;
     -webkit-mask-image: radial-gradient(
@@ -243,39 +533,19 @@ body {
     );
   }
 
-  /* Film-grain noise at ~1.5% opacity so the white never feels flat. */
-  .hero-noise {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.015;
-  }
-
-  /* Soft vignette hugging the hero edges. */
-  .hero-vignette {
-    background: radial-gradient(
-      ellipse 130% 110% at 50% 42%,
-      transparent 62%,
-      rgb(var(--hero-ink) / 0.05) 100%
-    );
-  }
-
-  /* Soft blue radial glow sitting behind the workflow canvas. */
-  .hero-canvas-glow {
-    background: radial-gradient(
-      ellipse 60% 55% at 62% 42%,
-      rgb(var(--hero-accent) / 0.09),
-      rgb(var(--hero-cyan) / 0.04) 45%,
-      transparent 72%
-    );
+  /* Hero CTAs square off to match every other button on the site. The rest
+     of the site sits in .theme-dark (4px corners, 2px border), but the Hero
+     reads the light :root tokens where controls are pills — so override just
+     the geometry here to keep the button family reading as one. Colour stays
+     light-appropriate (charcoal border + hard offset shadow from .btn-brutal). */
+  #hero .btn-brutal {
+    border-radius: 4px;
+    border-width: 2px;
   }
 
   /* Gentle idle float for workflow cards; duration/delay staggered inline. */
   .hero-float {
     animation: hero-float 6s ease-in-out infinite;
-  }
-
-  /* Very slow ambient drift for the blurred glass spheres. */
-  .hero-drift {
-    animation: hero-drift 22s ease-in-out infinite;
   }
 
   /* Soft pulse ring behind live status dots. */
@@ -296,16 +566,6 @@ body {
   }
   50% {
     transform: translateY(-7px);
-  }
-}
-
-@keyframes hero-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(28px, -20px, 0) scale(1.06);
   }
 }
 
@@ -338,25 +598,67 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-float,
-  .hero-drift,
   .hero-pulse-ring,
   .hero-flow-y {
     animation: none;
   }
 }
 
-@keyframes orbit-3d-spin {
+@keyframes logo-ring-spin {
   from {
-    transform: rotateY(0deg);
+    transform: rotate3d(0, 0, 1, 0deg);
   }
   to {
-    transform: rotateY(360deg);
+    transform: rotate3d(0, 0, 1, 360deg);
   }
 }
 
+@keyframes logo-dot-orbit {
+  from {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+  to {
+    transform: rotate3d(0, 0, 1, 360deg);
+  }
+}
+
+@keyframes logo-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes logo-aura-breathe {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Reduced motion: stop every continuous loop and the hover scale, but leave the
+   logo, aura and orbit fully visible and correctly placed (no transforms that
+   could hide or shift them). */
 @media (prefers-reduced-motion: reduce) {
-  .orbit-3d {
+  .logo-orbit-ring,
+  .logo-orbit-dot,
+  .logo-float,
+  .logo-aura::before {
     animation: none;
+  }
+
+  .logo-stage:hover .logo-mark {
+    transform: none;
+  }
+
+  .logo-aura::before {
+    opacity: 0.8;
   }
 }
 
@@ -365,46 +667,28 @@ body {
    Every animation below moves transform/opacity only (GPU-composited) and
    is disabled wholesale under prefers-reduced-motion at the bottom. */
 
-/* Section background: continues About's #090909 and hands off into Vision &
-   Mission's #050505 with no visible seam. */
+/* Section background: continues About's beige and hands off into Vision &
+   Mission's paper with no visible seam. */
 .ws-section-bg {
   background: linear-gradient(
     180deg,
-    rgb(var(--color-dark-2)) 0%,
-    rgb(var(--color-dark-2)) 60%,
-    rgb(var(--color-dark)) 100%
+    rgb(var(--color-cream)) 0%,
+    rgb(var(--color-cream)) 60%,
+    rgb(var(--color-paper)) 100%
   );
 }
 
-/* Ambient indigo glows — the top one extends the About section's light. */
-.ws-glow-a {
-  background: radial-gradient(
-    ellipse 70% 42% at 50% 0%,
-    rgb(var(--color-accent) / 0.09),
-    transparent 70%
-  );
-}
-
-.ws-glow-b {
-  background: radial-gradient(
-    ellipse 55% 45% at 50% 55%,
-    rgb(var(--color-accent) / 0.07),
-    rgb(var(--color-accent-2) / 0.03) 45%,
-    transparent 72%
-  );
-}
-
-/* Extremely faint blueprint grid, drifting diagonally one cell per loop.
+/* Faint charcoal blueprint grid, drifting diagonally one cell per loop.
    The element is oversized by one cell (inset: -56px) so the pan never
    exposes an edge. */
 .ws-grid {
   position: absolute;
   inset: -56px;
   background-image: linear-gradient(
-      rgb(var(--color-accent) / 0.045) 1px,
+      rgb(var(--color-ink) / 0.05) 1px,
       transparent 1px
     ),
-    linear-gradient(90deg, rgb(var(--color-accent) / 0.045) 1px, transparent 1px);
+    linear-gradient(90deg, rgb(var(--color-ink) / 0.05) 1px, transparent 1px);
   background-size: 56px 56px;
   -webkit-mask-image: radial-gradient(
     ellipse 75% 65% at 50% 45%,
@@ -424,14 +708,14 @@ body {
   }
 }
 
-/* Soft floating particles; per-particle position/delay set inline. */
+/* A few floating cobalt specks; per-particle position/delay set inline. */
 .ws-particle {
   position: absolute;
-  height: 4px;
-  width: 4px;
+  height: 5px;
+  width: 5px;
   border-radius: 9999px;
-  background: rgb(var(--color-accent-2) / 0.6);
-  opacity: 0.22;
+  background: rgb(var(--color-accent) / 0.5);
+  opacity: 0.3;
   animation: ws-particle-float 15s ease-in-out infinite;
 }
 
@@ -442,36 +726,6 @@ body {
   }
   50% {
     transform: translate3d(10px, -42px, 0);
-  }
-}
-
-/* Slow ambient light streaks sliding across the section. */
-.ws-streak {
-  position: absolute;
-  height: 1px;
-  width: 42%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgb(var(--color-accent) / 0.28),
-    transparent
-  );
-  opacity: 0;
-  animation: ws-streak-drift 17s ease-in-out infinite;
-}
-
-@keyframes ws-streak-drift {
-  0% {
-    transform: translate3d(-70%, 0, 0);
-    opacity: 0;
-  }
-  30%,
-  70% {
-    opacity: 0.55;
-  }
-  100% {
-    transform: translate3d(190%, 0, 0);
-    opacity: 0;
   }
 }
 
@@ -514,16 +768,14 @@ body {
   animation-play-state: paused;
 }
 
-/* Glassmorphism panel: thin glowing accent border on frosted brand surface. */
-.ws-glass {
-  border-radius: 20px;
-  border: 1px solid rgb(var(--color-accent) / 0.22);
-  background: rgb(var(--color-surface) / 0.62);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow:
-    0 0 40px rgb(var(--color-accent) / 0.08),
-    0 18px 44px rgba(0, 0, 0, 0.42);
+/* Soft-brutal scene panel: flat white face, thick charcoal border, layered
+   physical shadow. The in-story sibling of .card-brutal (no hover motion —
+   these are display surfaces, not clickable objects). */
+.ws-card {
+  border-radius: var(--radius-panel);
+  border: var(--border-card) solid rgb(var(--color-ink));
+  background: rgb(var(--color-card));
+  box-shadow: var(--shadow-panel);
 }
 
 /* Step heading swap above the stage (element is re-keyed per step). */
@@ -579,13 +831,13 @@ body {
   }
 }
 
-/* Radar sweep over the Germany map (scene 1). */
+/* Radar sweep over the map of Germany (scene 1). */
 .ws-radar {
   position: absolute;
   border-radius: 9999px;
   background: conic-gradient(
     from 0deg,
-    rgb(var(--color-accent) / 0.3),
+    rgb(var(--color-accent) / 0.28),
     rgb(var(--color-accent) / 0.06) 55deg,
     transparent 100deg
   );
@@ -680,7 +932,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .ws-grid,
   .ws-particle,
-  .ws-streak,
   .ws-radar,
   .ws-pulse-ring,
   .ws-caret,

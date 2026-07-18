@@ -26,10 +26,10 @@ function StepNode({ step, variants }: StepNodeProps) {
       variants={variants}
       className="group flex flex-col items-center gap-3 text-center"
     >
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-accent text-sm font-bold text-white ring-4 ring-brand-dark-2 transition-transform duration-300 group-hover:scale-110 sm:h-12 sm:w-12">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-brand-ink bg-brand-accent text-sm font-bold text-brand-paper shadow-brutal-sm transition-transform duration-300 ease-spring group-hover:scale-110 group-hover:-rotate-6 sm:h-12 sm:w-12">
         {step.step}
       </span>
-      <span className="max-w-[9rem] text-xs font-semibold leading-snug text-brand-slate sm:text-sm">
+      <span className="max-w-[9rem] text-xs font-semibold leading-snug text-brand-body sm:text-sm">
         {step.title}
       </span>
     </motion.div>
@@ -46,7 +46,7 @@ function DesktopStepRow({ steps, variants }: StepRowProps) {
     <div className="relative">
       <div
         aria-hidden="true"
-        className="absolute left-[10%] right-[10%] top-[22px] h-px bg-brand-accent/30 sm:top-6"
+        className="absolute left-[10%] right-[10%] top-[22px] h-0.5 bg-brand-ink/20 sm:top-6"
       />
       <div className="relative grid grid-cols-5 gap-4">
         {steps.map((step) => (
@@ -88,7 +88,7 @@ export default function Methodology() {
   return (
     <section
       id="methodology"
-      className="relative overflow-hidden bg-brand-dark-2 py-20 sm:py-24 md:py-28 lg:py-36"
+      className="relative overflow-hidden bg-brand-cream py-20 sm:py-24 md:py-28 lg:py-36"
     >
       <div
         aria-hidden="true"
@@ -112,15 +112,15 @@ export default function Methodology() {
         className="relative z-10 mx-auto max-w-6xl px-6 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-deep" />
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-deep sm:text-sm">
             Methodology
           </span>
         </motion.div>
 
         <motion.h2
           variants={itemVariants}
-          className="mt-6 max-w-2xl text-balance text-3xl font-semibold tracking-tight text-brand-offwhite sm:text-4xl lg:text-5xl"
+          className="mt-6 max-w-2xl text-balance text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl lg:text-5xl"
         >
           A Proven, End-to-End Delivery Process
         </motion.h2>
@@ -130,17 +130,17 @@ export default function Methodology() {
           {methodology.map((step, index) => (
             <motion.div key={step.step} variants={itemVariants} className="flex gap-4">
               <div className="flex flex-col items-center">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-accent text-xs font-bold text-white sm:h-10 sm:w-10 sm:text-sm">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-brand-ink bg-brand-accent text-xs font-bold text-brand-paper shadow-brutal-sm sm:h-10 sm:w-10 sm:text-sm">
                   {step.step}
                 </span>
                 {index < methodology.length - 1 && (
                   <span
                     aria-hidden="true"
-                    className="my-1 w-px flex-1 bg-brand-accent/30"
+                    className="my-1 w-0.5 flex-1 bg-brand-ink/20"
                   />
                 )}
               </div>
-              <span className="pb-8 pt-2 text-sm font-semibold leading-snug text-brand-slate sm:text-base">
+              <span className="pb-8 pt-2 text-sm font-semibold leading-snug text-brand-body sm:text-base">
                 {step.title}
               </span>
             </motion.div>

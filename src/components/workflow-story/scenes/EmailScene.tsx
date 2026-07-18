@@ -25,32 +25,32 @@ export default function EmailScene({ active, reduce }: EmailSceneProps) {
   return (
     <div className="flex w-full max-w-3xl items-stretch justify-center gap-4 px-1">
       <div className="ws-item min-w-0 flex-1">
-        <div className="ws-glass flex h-full flex-col p-5 sm:p-6">
+        <div className="ws-card flex h-full flex-col p-5 sm:p-6">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-accent/15 text-xs font-semibold text-brand-accent-2">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-accent/15 text-xs font-semibold text-brand-accent-deep">
               {AVATAR_INITIALS}
             </span>
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-brand-offwhite">
+              <p className="truncate text-sm font-semibold text-brand-ink">
                 {email.recipientName} · {email.recipientCompany}
               </p>
-              <p className="text-2xs text-brand-muted">{email.recipientRole}</p>
+              <p className="text-2xs text-brand-faint">{email.recipientRole}</p>
             </div>
-            <span className="ml-auto flex shrink-0 items-center gap-1 rounded-full border border-brand-accent/50 bg-brand-accent/10 px-2.5 py-1 text-2xs text-brand-accent-2">
+            <span className="ml-auto flex shrink-0 items-center gap-1 rounded-full border border-brand-accent/50 bg-brand-accent/10 px-2.5 py-1 text-2xs text-brand-accent-deep">
               <Sparkle size={11} aria-hidden="true" />
               {email.badge}
             </span>
           </div>
 
-          <p className="mt-4 border-b border-brand-line pb-3 text-xs text-brand-slate sm:text-sm">
-            <span className="text-brand-muted">Subject: </span>
-            <span className="font-medium text-brand-offwhite">{email.subject}</span>
+          <p className="mt-4 border-b border-brand-line pb-3 text-xs text-brand-body sm:text-sm">
+            <span className="text-brand-faint">Subject: </span>
+            <span className="font-medium text-brand-ink">{email.subject}</span>
           </p>
 
-          <p className="mt-3 min-h-40 flex-1 whitespace-pre-line text-xs leading-relaxed text-brand-slate sm:text-sm">
+          <p className="mt-3 min-h-40 flex-1 whitespace-pre-line text-xs leading-relaxed text-brand-body sm:text-sm">
             {text}
             {active && !done && (
-              <span aria-hidden="true" className="ws-caret text-brand-accent-2">
+              <span aria-hidden="true" className="ws-caret text-brand-accent-deep">
                 ▍
               </span>
             )}
@@ -67,10 +67,10 @@ export default function EmailScene({ active, reduce }: EmailSceneProps) {
             </span>
             <span
               className={cn(
-                "flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold transition-press duration-500 ease-out-strong",
+                "flex items-center gap-1.5 rounded-full border-2 px-4 py-1.5 text-xs font-bold transition-press duration-500 ease-out-strong",
                 done
-                  ? "bg-brand-accent text-brand-offwhite shadow-glow-sm"
-                  : "bg-brand-dark-3 text-brand-muted",
+                  ? "border-brand-ink bg-brand-accent text-brand-paper shadow-brutal-sm"
+                  : "border-brand-line bg-brand-cream text-brand-faint",
               )}
             >
               <PaperPlaneTilt size={13} aria-hidden="true" />
@@ -81,13 +81,13 @@ export default function EmailScene({ active, reduce }: EmailSceneProps) {
       </div>
 
       <div className="ws-item hidden w-52 shrink-0 lg:block" style={{ animationDelay: "220ms" }}>
-        <div className="ws-glass h-full p-4">
-          <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-brand-accent-2">
+        <div className="ws-card h-full p-4">
+          <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-brand-accent-deep">
             {email.researchTitle}
           </p>
           <ul className="mt-3 flex flex-col gap-3">
             {email.research.map((item) => (
-              <li key={item} className="flex items-start gap-2 text-2xs leading-relaxed text-brand-slate">
+              <li key={item} className="flex items-start gap-2 text-2xs leading-relaxed text-brand-body">
                 <CheckCircle size={13} aria-hidden="true" className="mt-px shrink-0 text-brand-green" />
                 {item}
               </li>

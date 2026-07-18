@@ -26,29 +26,29 @@ export default function LeadsScene() {
             className="ws-float"
             style={{ animationDelay: `${-index * 1.7}s`, animationDuration: `${6 + index}s` }}
           >
-            <div className="ws-glass flex flex-col gap-3 p-5">
+            <div className="ws-card flex flex-col gap-3 p-5">
               <div className="flex items-center gap-3">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-accent/15 text-brand-accent-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-accent/15 text-brand-accent-deep">
                   <Buildings size={18} aria-hidden="true" />
                 </span>
                 <div>
-                  <p className="text-sm font-semibold text-brand-offwhite">{company.name}</p>
-                  <p className="flex items-center gap-1 text-2xs text-brand-muted">
+                  <p className="text-sm font-semibold text-brand-ink">{company.name}</p>
+                  <p className="flex items-center gap-1 text-2xs text-brand-faint">
                     <Globe size={11} aria-hidden="true" />
                     {company.website}
                   </p>
                 </div>
               </div>
               <div className="flex flex-wrap gap-1.5">
-                <span className="rounded-full border border-brand-line px-2.5 py-0.5 text-2xs text-brand-slate">
+                <span className="rounded-full border border-brand-line px-2.5 py-0.5 text-2xs text-brand-body">
                   {company.industry}
                 </span>
-                <span className="flex items-center gap-1 rounded-full border border-brand-line px-2.5 py-0.5 text-2xs text-brand-slate">
+                <span className="flex items-center gap-1 rounded-full border border-brand-line px-2.5 py-0.5 text-2xs text-brand-body">
                   <Users size={11} aria-hidden="true" />
                   {company.employees}
                 </span>
               </div>
-              <div className="flex flex-col gap-1 text-2xs text-brand-muted">
+              <div className="flex flex-col gap-1 text-2xs text-brand-faint">
                 <p className="flex items-center gap-1.5">
                   <EnvelopeSimple size={12} aria-hidden="true" />
                   {company.email}

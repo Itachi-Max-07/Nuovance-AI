@@ -1,162 +1,133 @@
 "use client";
 
-import { motion, useReducedMotion, type Transition, type Variants } from "framer-motion";
-import Button from "@/components/ui/Button";
-import Globe from "@/components/ui/Globe";
+import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight } from "@phosphor-icons/react";
 import OrbitMotif from "@/components/ui/OrbitMotif";
-import { hero } from "@/lib/content";
+import WorkflowCanvas from "@/components/hero/WorkflowCanvas";
+import {
+  copyContainerVariants,
+  copyItemVariants,
+} from "@/components/hero/Animations";
+import { contact, hero, heroWorkflow } from "@/lib/content";
+import { whatsappLink } from "@/lib/utils";
 
-const contentVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-  },
-};
+function Headline() {
+  const accent = hero.headlineAccent;
+  const accentIndex = accent ? hero.headline.indexOf(accent) : -1;
+
+  if (accentIndex === -1) return <>{hero.headline}</>;
+
+  return (
+    <>
+      {hero.headline.slice(0, accentIndex)}
+      <span className="text-brand-accent-deep">{accent}</span>
+      {hero.headline.slice(accentIndex + accent.length)}
+    </>
+  );
+}
 
 export default function Hero() {
-  const shouldReduceMotion = useReducedMotion();
-
-  const itemVariants: Variants = shouldReduceMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { duration: 0.2 } },
-      }
-    : {
-        hidden: { opacity: 0, y: 16 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-        },
-      };
-
-  const backgroundAnimate = shouldReduceMotion
-    ? { opacity: 0.14 }
-    : { opacity: 0.14, rotate: 360 };
-
-  const backgroundTransition: Transition = shouldReduceMotion
-    ? { duration: 1.2, ease: "easeOut" }
-    : {
-        opacity: { duration: 1.2, ease: "easeOut" },
-        rotate: { duration: 90, repeat: Infinity, ease: "linear" },
-      };
+  const shouldReduceMotion = useReducedMotion() ?? false;
+  const itemVariants = copyItemVariants(shouldReduceMotion);
 
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-brand-dark py-20 sm:flex sm:min-h-[80dvh] sm:items-center sm:py-24 md:min-h-[85dvh] md:py-28 lg:min-h-[90dvh] lg:py-32 xl:py-36"
+      className="relative overflow-hidden bg-brand-paper py-16 sm:py-20 lg:flex lg:min-h-[90dvh] lg:items-center lg:py-24"
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-0 flex justify-center"
-      >
-        <div className="h-96 w-full max-w-3xl -translate-y-1/2 rounded-full bg-brand-accent/15 blur-3xl" />
-      </div>
+      {/* ---- Background: flat warm paper with a charcoal graph-paper dot
+           grid — geometric, tactile, no gradients or blur. ---- */}
+      <div aria-hidden="true" className="hero-dots absolute inset-0" />
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
-      >
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-14 px-6 lg:grid-cols-2 lg:items-center lg:gap-10 lg:px-8 xl:gap-16">
+        {/* ---- Editorial copy column ---- */}
         <motion.div
-          className="h-[130vw] w-[130vw] max-h-[880px] max-w-[880px] text-brand-accent-2 sm:h-[95vw] sm:w-[95vw] md:h-[75vw] md:w-[75vw] lg:h-[60vw] lg:w-[60vw]"
-          initial={{ opacity: 0, rotate: 0 }}
-          animate={backgroundAnimate}
-          transition={backgroundTransition}
+          variants={copyContainerVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex max-w-2xl flex-col items-start gap-6 sm:gap-7"
         >
-          <OrbitMotif className="h-full w-full" />
-        </motion.div>
-      </div>
-
-      <motion.div
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 z-0 flex justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }}
-      >
-        <div className="relative aspect-square w-[140vw] max-w-[900px] translate-y-[58%] sm:w-[100vw] md:w-[80vw] lg:w-[64vw]">
-          <Globe className="max-w-none" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-brand-dark to-transparent" />
-        </div>
-      </motion.div>
-
-      <motion.div
-        variants={contentVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-5 px-6 text-center sm:gap-6 md:gap-8 lg:px-8"
-      >
-        <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
-            {hero.eyebrow}
-          </span>
-        </motion.div>
-
-        <motion.h1
-          variants={itemVariants}
-          className="text-balance text-4xl font-semibold leading-[1.1] tracking-tight text-brand-offwhite sm:text-5xl lg:text-7xl"
-        >
-          {hero.headline}
-        </motion.h1>
-
-        <motion.p
-          variants={itemVariants}
-          className="max-w-2xl text-lg font-normal leading-relaxed text-brand-slate sm:text-xl"
-        >
-          {hero.positioning}
-        </motion.p>
-
-        <motion.div
-          variants={itemVariants}
-          className="flex w-full flex-col gap-4 pt-2 sm:w-auto sm:flex-row"
-        >
-          <motion.span
-            whileHover={{ y: -2 }}
-            whileTap={{ y: 0, scale: 0.98 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="inline-block w-full sm:w-auto"
+          <motion.div
+            variants={itemVariants}
+            className="inline-flex items-center gap-2 rounded-full border-2 border-brand-ink bg-brand-card px-4 py-2 shadow-brutal-sm"
           >
-            <Button variant="primary" href={hero.primaryCta.href} className="w-full sm:w-auto">
+            <OrbitMotif className="h-3.5 w-3.5 text-brand-accent" />
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-ink">
+              {hero.eyebrow}
+            </span>
+          </motion.div>
+
+          <motion.h1
+            variants={itemVariants}
+            className="text-balance text-4xl font-bold leading-[1.08] tracking-tight text-brand-ink sm:text-5xl lg:text-6xl xl:text-7xl"
+          >
+            <Headline />
+          </motion.h1>
+
+          <motion.p
+            variants={itemVariants}
+            className="max-w-xl text-lg leading-relaxed text-brand-body sm:text-xl"
+          >
+            {hero.positioning}
+          </motion.p>
+
+          <motion.div
+            variants={itemVariants}
+            className="flex w-full flex-col gap-3 pt-2 sm:w-auto sm:flex-row sm:gap-4"
+          >
+            <Link
+              href={hero.primaryCta.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-brutal btn-brutal-primary group"
+            >
               {hero.primaryCta.label}
-            </Button>
-          </motion.span>
-
-          <motion.span
-            whileHover={{ y: -2 }}
-            whileTap={{ y: 0, scale: 0.98 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="inline-block w-full sm:w-auto"
-          >
-            <Button
-              variant="outline"
-              href={hero.secondaryCta.href}
-              className="w-full text-brand-offwhite sm:w-auto"
+              <ArrowRight
+                size={16}
+                weight="bold"
+                aria-hidden="true"
+                className="transition-transform duration-160 ease-out-strong group-hover:translate-x-0.5"
+              />
+            </Link>
+            <a
+              href={whatsappLink(contact.whatsapp, contact.whatsappMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-brutal btn-brutal-outline"
             >
               {hero.secondaryCta.label}
-            </Button>
-          </motion.span>
+            </a>
+          </motion.div>
+
+          <motion.ul
+            variants={itemVariants}
+            className="flex flex-wrap items-center gap-x-2 gap-y-2 pt-3"
+          >
+            {hero.disciplines.map((discipline, index) => (
+              <li
+                key={discipline}
+                className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-brand-faint"
+              >
+                <span>{discipline}</span>
+                {index < hero.disciplines.length - 1 && (
+                  <span aria-hidden="true" className="text-brand-faint/50">
+                    ·
+                  </span>
+                )}
+              </li>
+            ))}
+          </motion.ul>
         </motion.div>
 
-        <motion.ul
-          variants={itemVariants}
-          className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 pt-2"
-        >
-          {hero.disciplines.map((discipline, index) => (
-            <li
-              key={discipline}
-              className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-brand-muted"
-            >
-              <span>{discipline}</span>
-              {index < hero.disciplines.length - 1 && (
-                <span aria-hidden="true" className="text-brand-muted/50">
-                  ·
-                </span>
-              )}
-            </li>
-          ))}
-        </motion.ul>
-      </motion.div>
+        {/* ---- The workflow is the hero illustration ---- */}
+        <WorkflowCanvas
+          nodes={heroWorkflow.nodes}
+          caption={heroWorkflow.caption}
+          captionStatus={heroWorkflow.captionStatus}
+          ariaLabel={heroWorkflow.ariaLabel}
+        />
+      </div>
     </section>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion, type Transition, type Variants } from "framer-motion";
 import OrbitMotif from "@/components/ui/OrbitMotif";
 import { leadership, type TeamMember } from "@/lib/content";
@@ -32,41 +33,60 @@ interface TeamCardProps {
 
 function TeamCard({ member, variants, featured: isFeatured }: TeamCardProps) {
   return (
-    <motion.div
-      variants={variants}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className={`group flex flex-col items-center rounded-card bg-brand-surface p-6 text-center ring-1 ring-brand-line transition-hover duration-300 hover:shadow-glow-sm hover:ring-brand-accent/40 ${
-        isFeatured ? "sm:p-8" : "sm:p-7"
-      }`}
-    >
+    // Framer Motion owns only this entry wrapper; .card-brutal owns the CSS
+    // hover transform, so the two never fight over `transform`.
+    <motion.div variants={variants} className="flex">
       <div
-        aria-hidden="true"
-        className={`flex shrink-0 items-center justify-center rounded-full bg-brand-dark font-heading font-semibold text-brand-offwhite ring-1 ring-brand-line ${
-          isFeatured
-            ? "h-24 w-24 text-2xl ring-4 ring-brand-accent/30 sm:h-28 sm:w-28 sm:text-3xl"
-            : "h-20 w-20 text-xl"
+        className={`group card-brutal flex w-full flex-col items-center p-7 text-center ${
+          isFeatured ? "sm:p-8" : ""
         }`}
       >
-        {getInitials(member.name)}
+        {member.photo ? (
+          <div
+            className={`relative shrink-0 overflow-hidden rounded-full bg-brand-cream shadow-brutal-sm ${
+              isFeatured
+                ? "h-24 w-24 border-3 border-brand-accent sm:h-28 sm:w-28"
+                : "h-20 w-20 border-3 border-brand-ink"
+            }`}
+          >
+            <Image
+              src={member.photo.src}
+              alt={member.photo.alt}
+              fill
+              sizes={isFeatured ? "112px" : "80px"}
+              className="object-cover"
+            />
+          </div>
+        ) : (
+          <div
+            aria-hidden="true"
+            className={`flex shrink-0 items-center justify-center rounded-full bg-brand-cream font-heading font-bold text-brand-ink shadow-brutal-sm ${
+              isFeatured
+                ? "h-24 w-24 border-3 border-brand-accent text-2xl sm:h-28 sm:w-28 sm:text-3xl"
+                : "h-20 w-20 border-3 border-brand-ink text-xl"
+            }`}
+          >
+            {getInitials(member.name)}
+          </div>
+        )}
+
+        <h3
+          className={`mt-5 font-extrabold tracking-wide text-brand-ink ${
+            isFeatured ? "text-xl sm:text-2xl" : "text-lg"
+          }`}
+        >
+          {member.name}
+        </h3>
+
+        <p className="mt-1 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-brand-faint">
+          <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-accent" />
+          {member.role}
+        </p>
+
+        <p className="mt-3 max-w-xs text-sm leading-relaxed text-brand-body">
+          {member.responsibilities}
+        </p>
       </div>
-
-      <h3
-        className={`mt-5 font-semibold text-brand-offwhite ${
-          isFeatured ? "text-xl sm:text-2xl" : "text-lg"
-        }`}
-      >
-        {member.name}
-      </h3>
-
-      <p className="mt-1 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-brand-muted">
-        <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-accent" />
-        {member.role}
-      </p>
-
-      <p className="mt-3 max-w-xs text-sm leading-relaxed text-brand-slate">
-        {member.responsibilities}
-      </p>
     </motion.div>
   );
 }
@@ -102,7 +122,7 @@ export default function Leadership() {
   return (
     <section
       id="leadership"
-      className="relative overflow-hidden bg-brand-dark py-20 sm:py-24 md:py-28 lg:py-36"
+      className="relative overflow-hidden bg-brand-paper py-20 sm:py-24 md:py-28 lg:py-36"
     >
       <div
         aria-hidden="true"
@@ -126,15 +146,15 @@ export default function Leadership() {
         className="relative z-10 mx-auto max-w-6xl px-6 lg:px-8"
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2">
-          <OrbitMotif className="h-4 w-4 text-brand-accent-2" />
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-sm">
+          <OrbitMotif className="h-4 w-4 text-brand-accent-deep" />
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent-deep sm:text-sm">
             Leadership
           </span>
         </motion.div>
 
         <motion.h2
           variants={itemVariants}
-          className="mt-6 max-w-2xl text-balance text-3xl font-semibold tracking-tight text-brand-offwhite sm:text-4xl lg:text-5xl"
+          className="mt-6 max-w-2xl text-balance text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl lg:text-5xl"
         >
           The Team Behind the Engineering
         </motion.h2>
@@ -145,7 +165,7 @@ export default function Leadership() {
           ))}
         </div>
 
-        <div className="mt-6 grid gap-6 sm:grid-cols-3">
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {rest.map((member) => (
             <TeamCard key={member.name} member={member} variants={itemVariants} />
           ))}

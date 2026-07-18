@@ -15,7 +15,7 @@ export default function SummaryScene({ active, reduce }: SummarySceneProps) {
 
   return (
     <div className="w-full max-w-3xl px-1">
-      <p className="ws-item text-center text-2xs font-semibold uppercase tracking-[0.2em] text-brand-accent-2 sm:text-xs">
+      <p className="ws-item text-center text-2xs font-semibold uppercase tracking-[0.2em] text-brand-accent-deep sm:text-xs">
         {summary.heading}
       </p>
 

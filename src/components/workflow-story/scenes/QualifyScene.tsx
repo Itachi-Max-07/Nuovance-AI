@@ -14,15 +14,15 @@ export default function QualifyScene() {
   return (
     <div className="w-full max-w-2xl px-1">
       <div className="ws-item">
-        <div className="ws-glass flex items-center gap-3 px-5 py-4">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-accent/15 text-brand-accent-2">
+        <div className="ws-card flex items-center gap-3 px-5 py-4">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-accent/15 text-brand-accent-deep">
             <OrbitMotif className="h-6 w-6" />
           </span>
           <div>
-            <p className="text-sm font-semibold text-brand-offwhite">
+            <p className="text-sm font-semibold text-brand-ink">
               {qualification.engineLabel}
             </p>
-            <p className="text-2xs text-brand-muted">{qualification.analyzingLabel}</p>
+            <p className="text-2xs text-brand-faint">{qualification.analyzingLabel}</p>
           </div>
           <span className="relative ml-auto flex h-2 w-2">
             <span className="ws-pulse-ring absolute inset-0 rounded-full bg-brand-accent/60" />
@@ -40,23 +40,23 @@ export default function QualifyScene() {
           >
             <div
               className={cn(
-                "ws-glass flex items-center gap-3 px-4 py-3",
+                "ws-card flex items-center gap-3 px-4 py-3",
                 !company.qualified && "opacity-40",
               )}
             >
               <p
                 className={cn(
                   "w-32 truncate text-xs font-medium sm:w-40 sm:text-sm",
-                  company.qualified ? "text-brand-offwhite" : "text-brand-muted",
+                  company.qualified ? "text-brand-ink" : "text-brand-faint",
                 )}
               >
                 {company.name}
               </p>
-              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-brand-dark-3">
+              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-brand-cream">
                 <div
                   className={cn(
                     "ws-bar h-full w-full rounded-full",
-                    company.qualified ? "bg-brand-green" : "bg-brand-muted",
+                    company.qualified ? "bg-brand-green" : "bg-brand-faint",
                   )}
                   style={{
                     ["--ws-bar" as string]: company.score / 100,
@@ -67,7 +67,7 @@ export default function QualifyScene() {
               <p
                 className={cn(
                   "w-8 text-right text-xs font-semibold tabular-nums",
-                  company.qualified ? "text-brand-green" : "text-brand-muted",
+                  company.qualified ? "text-brand-green" : "text-brand-faint",
                 )}
               >
                 {company.score}
@@ -77,7 +77,7 @@ export default function QualifyScene() {
                   "hidden items-center gap-1 rounded-full border px-2.5 py-0.5 text-2xs sm:flex",
                   company.qualified
                     ? "border-brand-green/40 text-brand-green"
-                    : "border-brand-line text-brand-muted",
+                    : "border-brand-line text-brand-faint",
                 )}
               >
                 {company.qualified ? (

@@ -14,23 +14,25 @@ const GERMANY_PATH =
   "L34,76 L52,58 L48,36 L70,30 L78,16 Z";
 
 /**
- * Premium dark map of Germany for the scan scene: soft-glowing outline with
- * business pins that pop in (ws-pin) while the scene is active. The radar
- * sweep is layered on top by the scene itself.
+ * Flat paper map of Germany for the scan scene: white cut-out with a thick
+ * charcoal outline (like a sticker on the page) and business pins that pop
+ * in (ws-pin) while the scene is active. The radar sweep is layered on top
+ * by the scene itself.
  */
 export default function GermanyMap({ pins, className }: GermanyMapProps) {
   return (
     <svg viewBox="0 0 240 320" fill="none" aria-hidden="true" className={className}>
+      {/* Hard offset "shadow" copy behind the map — physical depth, no blur. */}
       <path
         d={GERMANY_PATH}
-        className="fill-brand-surface/80 stroke-brand-accent/40"
-        strokeWidth="1.5"
+        transform="translate(5 5)"
+        className="fill-brand-ink/20"
         strokeLinejoin="round"
       />
       <path
         d={GERMANY_PATH}
-        className="stroke-brand-accent/15"
-        strokeWidth="6"
+        className="fill-brand-card stroke-brand-ink"
+        strokeWidth="3"
         strokeLinejoin="round"
       />
       {pins.map((pin, index) => (
@@ -39,8 +41,8 @@ export default function GermanyMap({ pins, className }: GermanyMapProps) {
           className="ws-pin"
           style={{ animationDelay: `${200 + index * 160}ms` }}
         >
-          <circle cx={pin.x} cy={pin.y} r="7" className="fill-brand-accent/20" />
-          <circle cx={pin.x} cy={pin.y} r="2.5" className="fill-brand-accent-2" />
+          <circle cx={pin.x} cy={pin.y} r="7" className="fill-brand-accent/25" />
+          <circle cx={pin.x} cy={pin.y} r="3" className="fill-brand-accent stroke-brand-ink" strokeWidth="1" />
         </g>
       ))}
     </svg>

@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Inter } from "next/font/google";
+import { Bricolage_Grotesque, Inter, Space_Grotesk } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { hero } from "@/lib/content";
+import { hero, contact } from "@/lib/content";
 import "./globals.css";
+
+const SITE_URL = `https://${contact.website}`;
+const SITE_TITLE = `${hero.eyebrow} — ${hero.headline}`;
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,14 +17,40 @@ const inter = Inter({
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["500", "600", "700", "800"],
   variable: "--font-heading",
   display: "swap",
 });
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "700"],
+  variable: "--font-grotesk",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: `${hero.eyebrow} — ${hero.headline}`,
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
   description: hero.positioning,
+  keywords: hero.disciplines,
+  alternates: { canonical: "/" },
+  // og:image / twitter:image are supplied automatically by app/opengraph-image.tsx.
+  openGraph: {
+    type: "website",
+    siteName: hero.eyebrow,
+    title: SITE_TITLE,
+    description: hero.positioning,
+    url: SITE_URL,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: hero.positioning,
+    site: contact.social.handle,
+    creator: contact.social.handle,
+  },
 };
 
 export default function RootLayout({
@@ -30,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
+    <html lang="en" className={`${inter.variable} ${bricolage.variable} ${spaceGrotesk.variable}`}>
       <body className="font-sans antialiased">
         <Navbar />
         <main>{children}</main>

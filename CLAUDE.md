@@ -27,22 +27,52 @@ site that converts visitors into consultation bookings.
 - NEVER make a Section a Client Component just to animate it — use a small
   client `MotionWrapper`/`AnimatedDiv` imported into the server Section.
 
-## Brand Tokens (NON-NEGOTIABLE — dark-luxury system, July 2026 redesign)
+## Brand Tokens (NON-NEGOTIABLE — Soft Brutalism system, July 2026 redesign)
 Colors — CSS variables in globals.css, mirrored in tailwind.config as `brand.*`:
-- `--color-dark: #050505`       primary background (`bg-brand-dark`)
-- `--color-dark-2: #090909`     alternate section background (`bg-brand-dark-2`)
-- `--color-surface: #111111`    matte cards/panels (`bg-brand-surface`)
-- `--color-surface-2: #151515`  raised surfaces (`bg-brand-surface-2`)
-- `--color-accent: #5B5BFF`     primary accent — CTAs, fills
-- `--color-accent-2: #7C6CFF`   secondary accent — accent TEXT on dark (better contrast)
-- `--color-offwhite: #F5F5F5`   primary text (`text-brand-offwhite`)
-- `--color-slate: #B8B8B8`      secondary/body text (`text-brand-slate`)
-- `--color-muted: #7A7A7A`      muted text (`text-brand-muted`)
-- `brand-line` (static)         rgba(255,255,255,.08) hairline borders/dividers
-- Shadows: `shadow-glow` / `shadow-glow-sm` (indigo glow), `shadow-card` (soft depth)
-- Radii: `rounded-card` (20px) for cards, `rounded-full` for buttons/chips,
-  `rounded-input` (14px) for inputs
-- NO bright blues/cyans. NO light sections — sections alternate #050505/#090909.
+- `--color-paper: #F7F6F3`        primary background (`bg-brand-paper`)
+- `--color-cream: #F2EFE9`        alternate sections + wells (`bg-brand-cream`)
+- `--color-card: #FFFFFF`         flat card faces (`bg-brand-card`)
+- `--color-ink: #1C1C1C`          charcoal — structural borders, headings, shadows
+- `--color-body: #474742`         secondary/body text (`text-brand-body`)
+- `--color-faint: #65655E`        muted labels (`text-brand-faint`)
+- `--color-accent: #2563EB`       cobalt — THE single accent: primary actions/highlights
+- `--color-accent-deep: #1D4ED8`  accent as TEXT on light backgrounds (AA contrast)
+- `--color-green: #047857`        success/live states
+- `--color-violet: #6D28D9`       "AI working" status tone
+- `brand-line` (static)           rgba(28,28,28,.12) hairline dividers INSIDE cards only;
+  structural borders are 2–3px solid `brand-ink`
+- Shadows ride CSS variables (`--shadow-brutal*` in globals.css): layered
+  hard-offset + soft ambient at `:root`, flat pure-black hard offsets in
+  `.theme-dark`. Classes: `shadow-brutal` / `-sm` / `-lg` / `-accent`.
+- Geometry rides CSS variables too: `--radius-card/panel/control` and
+  `--border-card/control` (24px/20px/999px + 3px at `:root`; 4px + 2px in
+  `.theme-dark`). The shared classes consume them — never hardcode radii or
+  border widths into `.card-brutal`/`.btn-brutal`/`.tag-brutal`/`.ws-card`.
+- NO glassmorphism, NO backdrop blur, NO neon glows, NO gradient text, NO
+  gradients. Flat surfaces everywhere; `.nav-gloss` is a flat solid black
+  slab (its old gloss/blur treatment is gone — do not reintroduce it).
+
+### Dark scope (July 2026 — ALL-BLACK Soft Brutalism, everything but the Hero)
+- Every section AFTER the Hero is wrapped in `<div className="theme-dark
+  bg-brand-paper">` (page.tsx); the Navbar and Footer carry `theme-dark`
+  themselves. `.theme-dark` (globals.css) re-points ALL the CSS variables
+  above at the black system: paper #0A0A0A, cream #111111, card #141414,
+  ink #EAEAEA (off-white), body #B0B0B0, faint #8A8A8A, accent #5E81AC
+  (muted steel blue — THE single accent), accent-deep #81A1C1 (accent as
+  text), green #A3BE8C (muted sage), violet/purple #B48EAD (muted mauve).
+- ONLY the Hero reads the untouched `:root` light values — NEVER apply the
+  dark tokens to the Hero, and never hardcode a palette that bypasses the
+  variables (shadows/hairlines ride `--shadow-hard` / `--color-line`).
+- In scope: sharp 4px corners, 2px borders, flat `4px 4px 0 #000` shadows —
+  all via the variables above. Hover feedback is a border/background shift
+  (border-soft #333 → border-strong #4A4A4A), never a glow.
+- On accent-filled elements use `text-brand-paper` (resolves near-black in
+  scope), NOT `text-white` — white on the muted accent fails WCAG AA.
+- All surface borders (cards, tags, buttons, nav) come from
+  `--color-border-soft` (#333333). Headings weigh 700–800 in scope.
+- A scoped rule flattens Tailwind `rounded`…`rounded-3xl` utilities to 4px
+  inside `.theme-dark`; `rounded-full` circles (dots, pulse rings, icon
+  chips) intentionally stay round.
 
 Typography:
 - **Bricolage Grotesque** for headings (`font-heading`, applied to h1–h6 via a
@@ -59,14 +89,27 @@ Typography:
 - NO inline styles for colors or typography. Tailwind classes exclusively.
 
 ## Brand Feel
-Luxury enterprise AI consulting: minimal, editorial, premium, dark. The whole
-site is dark — sections alternate between `bg-brand-dark` (#050505) and
-`bg-brand-dark-2` (#090909) for very subtle rhythm; matte `brand-surface`
-cards with `brand-line` hairline borders sit on top. Indigo accents used
-sparingly; soft glows instead of heavy shadows; generous whitespace (Linear /
-Vercel / OpenAI energy). Icons are monochrome/outline. The logo = **N monogram
-+ circular orbit + dot** — echo that orbit/dot motif in section dividers,
-background accents, and hover states via the shared `OrbitMotif` component.
+Soft Brutalism: tactile, chunky, playful, premium (Gumroad / Craft Docs /
+Read.cv energy). Sections alternate between `bg-brand-paper` (#F7F6F3) and
+`bg-brand-cream` (#F2EFE9); flat white `.card-brutal` cards with 3px charcoal
+borders and hard offset shadows sit on top like physical objects. Cobalt
+accent used sparingly (primary CTAs, highlights, indicator dots). Motion is
+physical, never sci-fi: spring easing (`ease-spring`), hover lift with shadow
+growth, click compress, slight tilts — no glows, no particles beyond the hero
+canvas packets. Bold typographic hierarchy (Bricolage Grotesque 700+ for
+headings), oversized padding, generous whitespace. Icons are
+monochrome/outline. The logo = **N monogram + circular orbit + dot** — echo
+that orbit/dot motif in section dividers, background accents, and hover
+states via the shared `OrbitMotif` component.
+
+### Component contracts
+- Cards: shared `.card-brutal` class (globals.css) — never restyle per
+  section. Framer Motion animates only an entry WRAPPER around it; CSS owns
+  the hover/press transform.
+- Buttons: shared `.btn-brutal` + `.btn-brutal-primary` / `.btn-brutal-outline`
+  classes; every CTA on the site presses the same way.
+- Tags/chips: shared `.tag-brutal`.
+- Workflow-story panels: `.ws-card` (no hover motion — display surfaces).
 
 ## Content
 - All site copy lives in `src/lib/content.ts` as typed objects/arrays — **never
@@ -104,7 +147,8 @@ tokens, follow THIS file. Do not use the skill's default palette or fonts.
 The user may paste component prompts copied from 21st.dev. Treat them as
 **structural and motion references only**: adopt the layout, composition,
 interaction, and animation patterns, but ALWAYS re-theme to this project's
-brand tokens (navy/blue palette, Montserrat, orbit/dot motif). Strip any
+brand tokens (paper/charcoal/cobalt Soft Brutalism, Bricolage Grotesque +
+Inter, orbit/dot motif). Strip any
 colors, fonts, gradients, or shadcn theme values that come with the prompt.
 Rebuild with our Tailwind CSS variables. If a 21st.dev component requires
 shadcn/ui primitives, install only what's needed — and ask first (see

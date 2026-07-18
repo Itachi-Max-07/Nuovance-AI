@@ -23,13 +23,13 @@ export default function StatTile({ stat, active, reduce, delay = 0 }: StatTilePr
 
   return (
     <div className="ws-item" style={{ animationDelay: `${delay}ms` }}>
-      <div className="ws-glass px-4 py-4 sm:px-5 sm:py-5">
-        <p className="font-heading text-xl font-semibold tabular-nums text-brand-offwhite sm:text-2xl lg:text-3xl">
+      <div className="ws-card px-4 py-4 sm:px-5 sm:py-5">
+        <p className="font-heading text-xl font-semibold tabular-nums text-brand-ink sm:text-2xl lg:text-3xl">
           {stat.prefix}
           {value}
           {stat.suffix}
         </p>
-        <p className="mt-1 text-2xs uppercase tracking-[0.14em] text-brand-muted sm:text-xs">
+        <p className="mt-1 text-2xs uppercase tracking-[0.14em] text-brand-faint sm:text-xs">
           {stat.label}
         </p>
       </div>
