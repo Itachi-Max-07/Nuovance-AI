@@ -51,6 +51,16 @@ const SCROLL_PER_STEP = 720;
 // Vision & Mission without a hard cut (and the story never replays).
 const FADE_START = 0.95;
 
+// Snap targets = the CENTER of each step's scroll band (aligned with
+// handleSelect below), plus 1 so the reader can always glide out past the
+// final step instead of being pulled back into it. Snapping lets the wheel
+// settle onto a step rather than stranding it mid-crossfade — the core of
+// the "smooth" feel for a stepped, pinned story.
+const SNAP_POINTS = [
+  ...Array.from({ length: STEP_COUNT }, (_, i) => (i + 0.5) / STEP_COUNT),
+  1,
+];
+
 // Avoids the SSR useLayoutEffect warning; ScrollTrigger only exists client-side.
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -74,6 +84,15 @@ export default function WorkflowStory() {
         end: () => `+=${STEP_COUNT * SCROLL_PER_STEP}`,
         pin: true,
         anticipatePin: 1,
+        // Glide the scroll to the nearest step center once the wheel/trackpad
+        // settles. `delay` lets a fast flick pass straight through the section;
+        // the ease + duration make the settle feel intentional, not grabby.
+        snap: {
+          snapTo: SNAP_POINTS,
+          duration: { min: 0.25, max: 0.6 },
+          delay: 0.08,
+          ease: "power2.inOut",
+        },
         onUpdate: (self) => {
           const index = Math.min(STEP_COUNT - 1, Math.floor(self.progress * STEP_COUNT));
           if (index !== activeStepRef.current) {
