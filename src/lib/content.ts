@@ -641,7 +641,7 @@ export const experience = {
         "Full pipeline: ideation → generation → editing → publishing",
         // TODO: add a real metric if available, e.g. "X videos/month delivered"
       ],
-      stack: ["Google Veo", "AI Video Workflows", "ffmpeg", "Content Automation"],
+      stack: ["Google Veo", "AI Video Workflows", "Content Automation"],
       video: "/videos/ugc-demo.mp4",
       link: "",
     },
