@@ -76,7 +76,7 @@ export interface StoryMapPin {
 /* ---------- Booking URL (single source of truth for all CTAs) ---------- */
 // TODO: replace with your real Cal.com or Calendly link, e.g.
 // "https://cal.com/nuovance-ai/strategy-call"
-const BOOKING_URL = "https://calendly.com/mdmasher07/30min";
+const BOOKING_URL = "https://calendly.com/nuovanceaiagency/30min";
 const BOOKING_CTA_LABEL = "Book a Meeting";
 
 // Falls back to the in-page contact section until a real booking link is set.
@@ -110,7 +110,7 @@ export const hero = {
     "Website Design & Development",
     "Digital Transformation",
   ],
-  primaryCta: { label: "Schedule a Strategy Consultation", href: "https://calendly.com/mdmasher07/30min" },
+  primaryCta: { label: "Schedule a Strategy Consultation", href: bookingHref },
   secondaryCta: { label: "Request a Custom AI Solution", href: "#contact" },
   website: "www.NuovanceAI.com",
 };
@@ -810,7 +810,7 @@ export const contact = {
   intro:
     "Whether you're looking to automate business operations, launch a SaaS product, develop enterprise software, or build a modern digital platform, Nuovance AI is ready to become your trusted technology partner.",
   website: "www.nuovanceai.com",
-  bookingUrl: "https://calendly.com/mdmasher07/30min",
+  bookingUrl: BOOKING_URL,
   bookingCtaLabel: BOOKING_CTA_LABEL,
   emails: {
     sales: "sales@nuovanceai.com",
