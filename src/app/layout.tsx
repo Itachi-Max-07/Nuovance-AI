@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Inter, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import SmoothScroll from "@/components/ui/SmoothScroll";
 import { hero, contact } from "@/lib/content";
 import "./globals.css";
 
@@ -62,6 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${bricolage.variable} ${spaceGrotesk.variable}`}>
       <body className="font-sans antialiased">
+        <SmoothScroll />
         <Navbar />
         <main>{children}</main>
         <Footer />

@@ -36,6 +36,15 @@ const securityHeaders = [
 
 const nextConfig = {
   poweredByHeader: false,
+  experimental: {
+    // @phosphor-icons/react ships a 45MB barrel (~4.5k modules, every icon at
+    // every weight) and is NOT in Next's built-in optimizePackageImports list.
+    // The Navbar imports from it, and the Navbar lives in the root layout, so
+    // without this every route — /blog and /case-studies included — pulls the
+    // whole barrel through webpack on each dev compile. Listing it here makes
+    // Next rewrite the barrel imports into direct per-icon imports.
+    optimizePackageImports: ["@phosphor-icons/react"],
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

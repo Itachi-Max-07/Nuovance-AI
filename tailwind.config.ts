@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   content: [
@@ -86,8 +87,43 @@ const config: Config = {
         // only on the entry wrapper, never the hovered element).
         brutal: "transform, box-shadow, border-color",
       },
+      // MDX article body (`prose`). Every colour is re-pointed at the brand
+      // CSS variables so long-form content tracks the same tokens as the rest
+      // of the site — the plugin's default gray palette is never used. The
+      // element components in mdx-components.tsx override the elements they
+      // map; `prose` only styles what MDX can emit but we don't map (h4, hr,
+      // tables, strong/em, nested lists).
+      typography: {
+        DEFAULT: {
+          css: {
+            "--tw-prose-body": "rgb(var(--color-body))",
+            "--tw-prose-headings": "rgb(var(--color-ink))",
+            "--tw-prose-lead": "rgb(var(--color-body))",
+            "--tw-prose-links": "rgb(var(--color-accent-deep))",
+            "--tw-prose-bold": "rgb(var(--color-ink))",
+            "--tw-prose-counters": "rgb(var(--color-faint))",
+            "--tw-prose-bullets": "rgb(var(--color-accent))",
+            "--tw-prose-hr": "rgb(var(--color-ink) / 0.12)",
+            "--tw-prose-quotes": "rgb(var(--color-ink))",
+            "--tw-prose-quote-borders": "rgb(var(--color-accent))",
+            "--tw-prose-captions": "rgb(var(--color-faint))",
+            "--tw-prose-code": "rgb(var(--color-ink))",
+            "--tw-prose-th-borders": "rgb(var(--color-ink))",
+            "--tw-prose-td-borders": "rgb(var(--color-ink) / 0.12)",
+            // The article column owns its own width constraint.
+            maxWidth: "none",
+            // Inline code renders as a bordered chip and blockquotes carry an
+            // accent rule, so the plugin's decorative backticks and smart
+            // quotes would double up. Strip them.
+            "code::before": { content: '""' },
+            "code::after": { content: '""' },
+            "blockquote p:first-of-type::before": { content: '""' },
+            "blockquote p:last-of-type::after": { content: '""' },
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [typography],
 };
 export default config;

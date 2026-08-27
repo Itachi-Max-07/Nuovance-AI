@@ -73,6 +73,9 @@ export interface StoryMapPin {
   y: number;
 }
 
+/* Routes privacy, GDPR, and DPDP requests. Published in privacy.mdx too. */
+const legalContactEmail = "nuovanceaiagency@gmail.com";
+
 /* ---------- Booking URL (single source of truth for all CTAs) ---------- */
 // TODO: replace with your real Cal.com or Calendly link, e.g.
 // "https://cal.com/nuovance-ai/strategy-call"
@@ -803,12 +806,30 @@ export const whyChooseUs: string[] = [
 ];
 
 /* ---------- Contact ---------- */
-/* TODO: replace all XXXXX placeholders with real values before launch. */
+
+/** Published business address. Mirrored in content/legal/privacy.mdx §2. */
+export const businessAddress = "Shaheen Bagh, Okhla, New Delhi, Delhi 110025, India";
+
+export interface GrievanceOfficer {
+  name: string;
+  designation: string;
+  email: string;
+  address: string;
+}
+
+/** DPDP Act 2023 Section 13 contact. Mirrored in content/legal/privacy.mdx §17. */
+export const grievanceOfficer: GrievanceOfficer = {
+  name: "Md Mahmood Raza",
+  designation: "Co-Founder & Grievance Officer",
+  email: legalContactEmail,
+  address: businessAddress,
+};
 
 export const contact = {
   headline: "Let's Build the Future Together",
   intro:
     "Whether you're looking to automate business operations, launch a SaaS product, develop enterprise software, or build a modern digital platform, Nuovance AI is ready to become your trusted technology partner.",
+  entity: "Nuovance AI",
   website: "www.nuovanceai.com",
   bookingUrl: BOOKING_URL,
   bookingCtaLabel: BOOKING_CTA_LABEL,
@@ -820,7 +841,7 @@ export const contact = {
   whatsapp: "+91 9304666904",
   whatsappMessage:
     "Hi Nuovance AI! I'd like to request a custom AI solution for my business.",
-  office: "India",
+  office: businessAddress,
   businessHours: [
     "Monday – Friday: 9:00 AM – 6:00 PM (IST)",
     "Saturday: 10:00 AM – 4:00 PM (IST)",
@@ -828,12 +849,10 @@ export const contact = {
   social: {
     handle: "@NuovanceAI",
     platforms: [
-      { name: "LinkedIn", url: "https://www.linkedin.com/company/nuovanceai" },
+      { name: "LinkedIn", url: "https://www.linkedin.com/company/nuovance-ai/" },
       { name: "Facebook", url: "https://www.facebook.com/share/1CsEHVyqjW/" },
       { name: "Instagram", url: "https://www.instagram.com/nuovanceai" },
       { name: "X", url: "https://x.com/NuovanceAI" },
-      { name: "YouTube", url: "https://www.youtube.com/@NuovanceAI" },
-      { name: "GitHub", url: "https://github.com/NuovanceAI" },
     ] as SocialPlatform[],
   },
 };
@@ -851,6 +870,83 @@ export const consultationProcess: string[] = [
   "Long-Term Support",
 ];
 
+/* ---------- Blog & Case Studies ----------
+   Page chrome only. The articles themselves are .mdx files under /content,
+   loaded by src/lib/mdx.ts. */
+
+export interface ContentIndexCopy {
+  eyebrow: string;
+  heading: string;
+  intro: string;
+  featuredLabel: string;
+  listLabel: string;
+  /** Shown when no published articles exist yet. */
+  empty: string;
+}
+
+export const blogIndex: ContentIndexCopy = {
+  eyebrow: "Insights",
+  heading: "Notes from the build",
+  intro:
+    "Field notes on AI, intelligent automation, and the engineering decisions behind the systems we ship for clients.",
+  featuredLabel: "Featured",
+  listLabel: "All articles",
+  empty: "New articles are on the way. Check back shortly.",
+};
+
+export const caseStudiesIndex: ContentIndexCopy = {
+  eyebrow: "Case Studies",
+  heading: "Proof, not promises",
+  intro:
+    "How we engineer intelligent systems for real businesses — the problem, the architecture, and the numbers that moved.",
+  featuredLabel: "Featured",
+  listLabel: "All case studies",
+  empty: "Case studies are being prepared for publication. Check back shortly.",
+};
+
+/** Labels for the article and case-study detail pages. */
+export const articleLabels = {
+  backToBlog: "All articles",
+  backToCaseStudies: "All case studies",
+  updatedPrefix: "Updated",
+  clientLabel: "Client",
+  industryLabel: "Industry",
+  servicesLabel: "Services",
+  resultsLabel: "Results",
+};
+
+/** Chrome for the standalone legal pages (/privacy). The policy body itself
+ *  lives in content/legal/*.mdx — only the page furniture is here. */
+export const legalLabels = {
+  eyebrow: "Legal",
+  contactEmail: legalContactEmail,
+  backHome: "Back to home",
+  updatedPrefix: "Last updated",
+  effectivePrefix: "Effective",
+  contactHeading: "Questions about this policy?",
+  contactBody:
+    "Email us with the subject line \u201CPrivacy Request\u201D and we will acknowledge within 5 business days.",
+  contactCtaLabel: "Email our privacy contact",
+};
+
+/** Closing CTA block at the end of every case study. */
+export const contentCta = {
+  eyebrow: "Next step",
+  heading: "Have a process worth automating?",
+  body:
+    "Bring us the workflow that's costing your team the most hours. We'll map it, architect it, and tell you honestly whether automation is the right answer.",
+  primaryLabel: BOOKING_CTA_LABEL,
+  secondaryLabel: "Talk to us",
+};
+
+/** RSS channel metadata for /rss.xml. */
+export const feed = {
+  title: "Nuovance AI — Insights",
+  description:
+    "Field notes on AI, intelligent automation, and software engineering from the Nuovance AI team.",
+  language: "en",
+};
+
 /* ---------- Closing ---------- */
 
 export const closing = {
@@ -859,4 +955,28 @@ export const closing = {
   motto: "Innovate. Automate. Transform.",
   statement:
     "Nuovance AI is more than a technology company — we are a strategic partner helping organizations unlock the power of Artificial Intelligence, intelligent automation, software engineering, SaaS platforms, and digital transformation. Together, we build intelligent businesses for the future.",
+};
+
+/* ---------- Chat widget ---------- */
+// Copy for the floating site assistant (components/ChatWidget.tsx). The
+// assistant answers from content/knowledge.ts, which is extracted from this
+// file and content/**/*.mdx at build time.
+
+export const chatWidget = {
+  openLabel: "Open the Nuovance AI assistant",
+  closeLabel: "Close the assistant",
+  title: "Ask Nuovance AI",
+  subtitle: "Answers drawn from this site",
+  greeting:
+    "Hi — ask me about Nuovance AI's services, approach, or published work. I answer only from what's on this site.",
+  placeholder: "Ask about our services…",
+  sendLabel: "Send",
+  thinkingLabel: "Thinking…",
+  errorMessage: "Something went wrong. Please try again in a moment.",
+  retryLabel: "Retry",
+  suggestions: [
+    "What does Nuovance AI do?",
+    "Which industries do you work with?",
+    "How do you run a project?",
+  ],
 };
