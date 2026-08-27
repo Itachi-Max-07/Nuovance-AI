@@ -14,10 +14,6 @@ site that converts visitors into consultation bookings.
   Use `unknown` and narrow, or define proper interfaces (usually in content.ts).
 - All component props MUST be explicitly typed with an interface
   (`interface HeroProps { ... }`), not inline parameter types.
-- Tailwind CSS (brand tokens as CSS variables)
-- Framer Motion for animation
-- next/font/google for Montserrat
-- Deploy target: Vercel
 
 ### App Router boundaries
 - Components are Server Components by DEFAULT.
@@ -115,9 +111,6 @@ states via the shared `OrbitMotif` component.
 - All site copy lives in `src/lib/content.ts` as typed objects/arrays — **never
   hardcode text in components**. Components map over this data.
 - Source content is `reference/company-profile.md`.
-- Section order: Hero → About → Vision & Mission → Capabilities → **Experience
-  (stats + selected work)** → Business Outcomes → Industries → Methodology
-  (10 steps) → Leadership → Tech Ecosystem → Why Choose Us → Contact.
 - If a required field is missing from content.ts, render `null` or a sensible
   empty state — NEVER hardcode fallback text in the component.
 - Placeholders must be explicitly flagged in content.ts
@@ -135,31 +128,7 @@ states via the shared `OrbitMotif` component.
 - The booking URL is a placeholder until the user confirms their Cal.com or
   Calendly link — do NOT invent a real URL.
 
-## Working With Design Skills (ui-ux-pro-max)
-Use **ui-ux-pro-max** for layout quality, spacing rhythm, visual hierarchy,
-motion, component polish, and its pre-delivery review checklist. BUT the brand
-tokens, typography (Montserrat), color palette, and the orbit/dot motif in this
-file are **non-negotiable and override any default the skill would apply**.
-When the skill suggests a color, font, or style that conflicts with these
-tokens, follow THIS file. Do not use the skill's default palette or fonts.
-
-## Working With 21st.dev Component Prompts
-The user may paste component prompts copied from 21st.dev. Treat them as
-**structural and motion references only**: adopt the layout, composition,
-interaction, and animation patterns, but ALWAYS re-theme to this project's
-brand tokens (paper/charcoal/cobalt Soft Brutalism, Bricolage Grotesque +
-Inter, orbit/dot motif). Strip any
-colors, fonts, gradients, or shadcn theme values that come with the prompt.
-Rebuild with our Tailwind CSS variables. If a 21st.dev component requires
-shadcn/ui primitives, install only what's needed — and ask first (see
-dependency rule).
-
 ## File Conventions
-- Sections: `src/components/sections/` (one file per section, PascalCase)
-- Reusable UI: `src/components/ui/` (Button, Card, SectionHeading, OrbitMotif)
-- Layout: `src/components/layout/` (Navbar, Footer)
-- Copy/data: `src/lib/content.ts`
-- Logo assets: `public/logo/`
 - One component per file. Keep them small and composable — no giant single-file pages.
 
 ## Rules
@@ -177,8 +146,3 @@ dependency rule).
 - Animations must be GPU-accelerated: animate `transform` and `opacity` only.
   No layout-property animations (width/height/margin) that cause reflows.
 - Respect `prefers-reduced-motion`: gate all non-essential animation.
-
-## Commands
-- Dev: `npm run dev`
-- Build: `npm run build`
-- Lint: `npm run lint`

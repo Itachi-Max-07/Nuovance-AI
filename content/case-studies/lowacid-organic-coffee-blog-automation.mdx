@@ -1,0 +1,101 @@
+---
+# TODO (before launch): confirm the client name is cleared for public use and
+# replace the three `results` values below with figures the client has signed
+# off on. The architecture described in the body is accurate as built.
+title: "Turning one blog post into a week of social content"
+description: "A blog-to-social pipeline for LowAcid Organic Coffee: n8n orchestrates the workflow, gpt-image-1 renders the visual, and Blotato handles distribution — with no one touching a scheduler."
+date: 2026-06-30
+updated: 2026-07-20
+author: "Nuovance AI"
+cover: "/images/case-studies/lowacid-organic-coffee-blog-automation.png"
+coverAlt: "A trigger card feeding a central n8n hub, which fans out to five cards representing the downstream apps in the pipeline."
+client: "LowAcid Organic Coffee" # PLACEHOLDER — pending client sign-off
+industry: "DTC E-commerce"
+services:
+  - "Workflow Automation"
+  - "AI Content Generation"
+  - "Social Distribution"
+tags: ["n8n", "gpt-image-1", "Blotato", "Content Automation"]
+featured: true
+results:
+  - label: "Time per post cycle" # PLACEHOLDER metric
+    value: "−92%"
+  - label: "Social posts per article" # PLACEHOLDER metric
+    value: "5×"
+  - label: "Manual scheduling steps" # PLACEHOLDER metric
+    value: "0"
+---
+
+LowAcid Organic Coffee were publishing genuinely good long-form content —
+brewing guides, sourcing notes, acidity explainers — and then letting it die on
+the blog. Turning one article into social posts meant a marketer rewriting the
+copy five times, briefing a designer for an image, and pasting everything into
+a scheduler. It took most of an afternoon, so it happened maybe twice a month.
+
+The brief was narrow: publish a blog post, and have the social content appear
+without anyone opening a scheduler.
+
+## The pipeline
+
+The whole thing runs in n8n, self-hosted, in four stages.
+
+**1. Trigger and extract.** The store's blog feed is polled on a schedule. New
+entries are diffed against a store of already-processed URLs, so a feed that
+re-serves old items can't republish them. The post's title, body, canonical URL,
+and hero image are pulled out and normalised into a single JSON object that
+every downstream node reads from.
+
+**2. Copy generation.** One LLM call per platform, not one call split five ways.
+Each gets its own system prompt with that platform's constraints baked in —
+character ceiling, hashtag convention, whether links are allowed in-body or have
+to go in a comment. Structured output keeps the response parseable.
+
+```json
+{
+  "instagram": { "caption": "...", "hashtags": ["..."] },
+  "linkedin":  { "body": "...", "cta": "..." },
+  "x":         { "thread": ["...", "..."] },
+  "pinterest": { "title": "...", "description": "..." }
+}
+```
+
+**3. Image generation.** A prompt is assembled from the post's subject plus a
+fixed brand-style block — palette, mood, composition, no-text rule — and sent to
+`gpt-image-1`. The style block is a pinned constant, not something the model
+improvises, which is what keeps a month of posts looking like one brand.
+
+<Callout tone="note" title="The step that breaks first">
+  `gpt-image-1` returns base64, not a URL. Distribution APIs generally want a
+  publicly reachable media URL. So the pipeline has a mandatory middle step:
+  decode the base64 to binary, push it to object storage, and pass *that* URL
+  onward. Skipping it is the single most common reason a build like this fails
+  in testing.
+</Callout>
+
+**4. Distribution.** The hosted image URL and the per-platform copy are handed
+to Blotato, which owns the actual publishing and scheduling across accounts.
+Posts are staggered rather than fired simultaneously, so one article becomes a
+week of presence instead of a single noisy hour.
+
+## What made it hold up
+
+Three decisions did most of the work.
+
+- **Idempotency at the trigger.** Every processed URL is recorded before
+  generation begins. A feed hiccup or a workflow re-run cannot double-post — the
+  failure mode clients actually notice.
+- **A dedicated error workflow.** Any failure in any node fires a single handler
+  that posts the workflow name, failing node, and execution link to Slack. Nobody
+  finds out from an empty content calendar.
+- **A human gate, kept optional.** Generated content lands in an approval queue
+  by default. It can be switched to fully autonomous per campaign — but that's
+  the client's decision to make, not a default we impose on their brand.
+
+## Result
+
+Publishing a blog post now produces a full week of platform-native social
+content with no manual step between writing and distribution. The marketer's
+afternoon went back to writing more posts — which is the actual point, since the
+pipeline's output scales with how much they publish.
+
+<Metric value="4 stages" label="End-to-end, fully automated" hint="Trigger → copy → image → distribution" />

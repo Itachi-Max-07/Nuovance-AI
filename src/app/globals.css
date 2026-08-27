@@ -83,16 +83,16 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  /* Offsets in-page anchor jumps so section headings clear the floating
-     pill Navbar (top gap + pill height + breathing room). */
-  scroll-padding-top: 6rem;
-}
+  /* NO `scroll-behavior: smooth` here. GSAP writes the viewport scroll with
+     the two-argument `window.scrollTo(x, y)`, which obeys this property, so
+     every frame of the WorkflowStory ScrollTrigger snap would kick off a
+     competing native animation and the snap would rubber-band. Anchor easing
+     lives in @/lib/scroll-engine instead, on the same curve as the wheel. */
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  /* Offsets in-page anchor jumps so section headings clear the floating
+     pill Navbar (top gap + pill height + breathing room). Read back by the
+     scroll engine, so both paths land on the same line. */
+  scroll-padding-top: 6rem;
 }
 
 body {

@@ -1,0 +1,100 @@
+---
+title: "n8n vs Make for Agency Client Work"
+description: "A working comparison of n8n and Make for automation delivered on behalf of clients — how each one bills, what self-hosting actually costs you, and which recovers better when a workflow fails at 3am."
+date: 2026-07-14
+updated: 2026-07-22
+author: "Nuovance AI"
+cover: "/images/blog/n8n-vs-make-for-agency-client-work.png"
+coverAlt: "An n8n workflow editor panel above a circular hub, with connectors fanning out to five cards representing connected apps."
+tags: ["Automation", "n8n", "Make", "Agency Operations"]
+featured: true
+---
+
+Most "n8n vs Make" comparisons are written for someone automating their own
+inbox. Building automation *for clients* is a different problem: you inherit
+the billing model, the uptime, and the 3am failure. Here's how the two
+platforms actually differ once someone else's revenue depends on the workflow.
+
+## Billing: operations vs executions
+
+This is the single biggest cost divergence, and it is structural.
+
+Make bills per **operation** — one module run, once. A twelve-module scenario
+that fires 500 times a month costs roughly 6,000 operations, before you count
+iterator and aggregator overhead. Add error-handling branches and the number
+climbs again. Cost scales with workflow *complexity*, which is exactly the
+thing that grows over the life of a client account.
+
+n8n Cloud bills per **workflow execution**. A run is a run, whether the
+workflow has four nodes or forty. Refactoring a workflow from six nodes to
+twenty-five doesn't move the bill at all.
+
+The practical consequence: on Make, the tenth iteration of a mature client
+workflow is meaningfully more expensive than the first. On n8n it isn't. For
+agency work — where scenarios accrete edge cases for years — that compounds.
+
+## Self-hosting is a real option, with a real caveat
+
+n8n can be self-hosted with Docker, and for volume work the economics are hard
+to argue with. Past a few hundred thousand executions a month, a small VPS with
+Postgres and Redis in queue mode costs less than any managed tier.
+
+```yaml
+# Queue mode: the main process stops being the bottleneck.
+# One worker per ~2 vCPU is a sane starting point.
+environment:
+  - EXECUTIONS_MODE=queue
+  - QUEUE_BULL_REDIS_HOST=redis
+  - DB_TYPE=postgresdb
+  - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+```
+
+Self-hosting also solves a problem Make cannot: **data residency**. If a client's
+workflow touches customer PII and they're in the EU, running the automation on
+infrastructure you control is a far shorter compliance conversation than
+explaining a third-party processor.
+
+<Callout tone="note" title="Licensing, read this part">
+  n8n is fair-code under the Sustainable Use License, not open source. You can
+  self-host it for your own business and for work you deliver to clients. You
+  cannot rebrand it and resell hosted n8n as your own product without a
+  commercial licence. If your plan is "white-label automation platform," get
+  that in writing before you build on it.
+</Callout>
+
+Self-hosting is not free — it's a trade. You now own upgrades, backups,
+encryption-key custody, and the pager. Bill for it or don't do it.
+
+## Error handling is where the difference bites
+
+Make attaches error handlers to individual modules with explicit directives —
+`Resume`, `Ignore`, `Rollback`, `Break`, `Commit`. `Break` is the useful one: it
+parks the run in the incomplete executions queue so it can be retried later
+with its data intact. It's precise, and it's per-module, which means a scenario
+with thirty modules needs thirty decisions about failure.
+
+n8n takes the opposite approach. You set a dedicated **error workflow** once,
+and any failure in any workflow pointed at it fires that handler with the full
+execution context — workflow name, failing node, error message, execution URL.
+One handler routes every failure across an entire client account to Slack, to a
+ticket, or to a retry. Individual nodes still get per-node retry counts, wait
+intervals, and an error output branch when a specific step needs bespoke
+treatment.
+
+For agency work this asymmetry matters. Make's model is more precise per
+scenario. n8n's model means one afternoon of work gives you failure visibility
+across a whole client portfolio.
+
+## Which we reach for
+
+Make, when the client will maintain the automation themselves. The canvas is
+genuinely easier to hand over, and the app catalogue covers more SaaS out of
+the box.
+
+n8n, for everything we operate on a client's behalf: predictable per-execution
+cost, a real code escape hatch when an API is awkward, portfolio-wide error
+handling, and self-hosting when data residency or volume demands it.
+
+The wrong reason to pick either is which canvas looks nicer in a demo. Pick on
+the billing curve and the failure path — those are the two things you'll live
+with for years.

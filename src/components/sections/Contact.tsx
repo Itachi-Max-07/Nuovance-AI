@@ -5,14 +5,12 @@ import {
   Clock,
   EnvelopeSimple,
   FacebookLogo,
-  GithubLogo,
   InstagramLogo,
   LinkedinLogo,
   MapPin,
   Phone,
   WhatsappLogo,
   XLogo,
-  YoutubeLogo,
   type Icon,
 } from "@phosphor-icons/react";
 import { motion, useReducedMotion, type Transition, type Variants } from "framer-motion";
@@ -37,8 +35,6 @@ const socialIcons: Record<string, Icon> = {
   Facebook: FacebookLogo,
   Instagram: InstagramLogo,
   X: XLogo,
-  YouTube: YoutubeLogo,
-  GitHub: GithubLogo,
 };
 
 const isRealBookingLink = /^https?:\/\//.test(contact.bookingUrl);

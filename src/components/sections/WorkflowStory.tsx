@@ -25,6 +25,7 @@ import ScanScene from "@/components/workflow-story/scenes/ScanScene";
 import SummaryScene from "@/components/workflow-story/scenes/SummaryScene";
 import TrackScene from "@/components/workflow-story/scenes/TrackScene";
 import { workflowStory } from "@/lib/content";
+import { onScrollTakeover, smoothScrollTo } from "@/lib/scroll-engine";
 
 interface StorySceneProps {
   active: boolean;
@@ -99,7 +100,17 @@ export default function WorkflowStory() {
       });
     }, sectionRef);
 
+    // A fresh wheel/key/anchor gesture outranks an in-flight snap. Without
+    // this the snap tween and the scroll engine both write the scroll
+    // position each frame, the engine detects the drift and bows out, and the
+    // reader's input is swallowed until the snap finishes.
+    const releaseTakeover = onScrollTakeover(() => {
+      const snapTween = triggerRef.current?.getTween(true);
+      if (snapTween) snapTween.kill();
+    });
+
     return () => {
+      releaseTakeover();
       triggerRef.current = null;
       ctx.revert();
     };
@@ -110,7 +121,9 @@ export default function WorkflowStory() {
     if (!trigger) return;
     const target =
       trigger.start + ((index + 0.5) / STEP_COUNT) * (trigger.end - trigger.start);
-    window.scrollTo({ top: target, behavior: "smooth" });
+    // Through the shared engine so a rail jump moves on the same curve as the
+    // wheel — and so the engine treats it as its own scroll, not a takeover.
+    smoothScrollTo(target);
   }, []);
 
   const step = workflowStory.steps[activeStep];

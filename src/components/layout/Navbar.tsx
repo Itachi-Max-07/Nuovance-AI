@@ -3,17 +3,29 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { List, X } from "@phosphor-icons/react";
 import Button from "@/components/ui/Button";
 import { bookingHref, brand, contact } from "@/lib/content";
 
-const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Experience", href: "#experience" },
-  { label: "Industries", href: "#industries" },
-  { label: "Contact", href: "#contact" },
+interface NavLink {
+  label: string;
+  href: string;
+  /** Home-page section this link scrolls to; absent for standalone routes. */
+  sectionId?: string;
+}
+
+// Section links are route-absolute ("/#about", not "#about") so they still
+// work from /blog and /case-studies, where those sections don't exist.
+const navLinks: NavLink[] = [
+  { label: "About", href: "/#about", sectionId: "about" },
+  { label: "Capabilities", href: "/#capabilities", sectionId: "capabilities" },
+  { label: "Experience", href: "/#experience", sectionId: "experience" },
+  { label: "Industries", href: "/#industries", sectionId: "industries" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/#contact", sectionId: "contact" },
 ];
 
 // Underline reveal + Electric Blue shift shared by desktop and mobile links.
@@ -23,28 +35,36 @@ const linkBaseStyles =
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeHref, setActiveHref] = useState("");
+  const [activeSection, setActiveSection] = useState("");
+  const pathname = usePathname();
 
   // Scroll-spy: the section crossing the upper-middle band of the viewport
   // owns the accent state. IntersectionObserver (not offset math) so the
   // GSAP pin-spacer around the workflow story can't skew measurements.
+  // Only the home page has these sections; elsewhere `targets` is empty and
+  // the route links below own the active state instead.
   useEffect(() => {
     const targets = navLinks
-      .map((link) => document.getElementById(link.href.slice(1)))
+      .map((link) => (link.sectionId ? document.getElementById(link.sectionId) : null))
       .filter((el): el is HTMLElement => el !== null);
     if (targets.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) setActiveHref(`#${entry.target.id}`);
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
         }
       },
       { rootMargin: "-35% 0px -60% 0px" }
     );
     targets.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
+
+  const isLinkActive = (link: NavLink): boolean =>
+    link.sectionId
+      ? pathname === "/" && activeSection === link.sectionId
+      : pathname.startsWith(link.href);
 
   return (
     // theme-dark puts the Navbar's brand tokens on the dark system, so text,
@@ -74,11 +94,12 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Full link row only from lg: at md it collides with the wordmark +
-              booking CTA and forces horizontal page scroll. */}
-          <div className="hidden items-center gap-10 lg:flex">
+          {/* Full link row only from xl: seven links plus the wordmark and
+              booking CTA no longer clear 1024px, and overflowing the pill
+              would force horizontal page scroll. */}
+          <div className="hidden items-center gap-7 xl:flex">
             {navLinks.map((link) => {
-              const isActive = activeHref === link.href;
+              const isActive = isLinkActive(link);
               return (
                 <Link
                   key={link.href}
@@ -110,7 +131,7 @@ export default function Navbar() {
               aria-controls="mobile-menu"
               aria-label={isOpen ? "Close menu" : "Open menu"}
               onClick={() => setIsOpen((prev) => !prev)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded border-2 border-brand-ink/15 bg-brand-ink/5 text-brand-ink transition-press duration-160 ease-spring hover:bg-brand-ink/10 active:translate-y-0.5 active:scale-95 lg:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded border-2 border-brand-ink/15 bg-brand-ink/5 text-brand-ink transition-press duration-160 ease-spring hover:bg-brand-ink/10 active:translate-y-0.5 active:scale-95 xl:hidden"
             >
               {isOpen ? <X size={24} aria-hidden="true" /> : <List size={24} aria-hidden="true" />}
             </button>
@@ -125,11 +146,11 @@ export default function Navbar() {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="overflow-hidden border-t border-brand-ink/10 lg:hidden"
+              className="overflow-hidden border-t border-brand-ink/10 xl:hidden"
             >
               <div className="flex flex-col gap-4 px-6 pb-6 pt-4">
                 {navLinks.map((link) => {
-                  const isActive = activeHref === link.href;
+                  const isActive = isLinkActive(link);
                   return (
                     <Link
                       key={link.href}
