@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Inter, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import ChatWidget from "@/components/ChatWidget";
 import SmoothScroll from "@/components/ui/SmoothScroll";
 import { hero, contact } from "@/lib/content";
 import "./globals.css";
@@ -67,6 +68,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <ChatWidget />
         <Analytics />
       </body>
     </html>
